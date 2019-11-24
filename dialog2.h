@@ -15,17 +15,24 @@ class Dialog2 : public QDialog
 
 public:
     explicit Dialog2(QWidget *parent = nullptr, Session *s = nullptr);
+    void updateTable();
+    void updateMods();
     void updateEquivalents();
     ~Dialog2();
 
-public slots:
-    void onNewColOneEntered(const QString &col1);
-    void onNewColTwoEntered(const QString &col2);
+private slots:
+    void onBoxOneActivated(const QString &text);
+    void onBoxTwoActivated(const QString &text);
+    void onNewColumnUpdate();
 
 private:
     Ui::Dialog2 *ui;
     QStandardItemModel *eqvModel;
     QStandardItemModel *modModel;
+    QHash<QString, QString> modified;
+    Session *d_ses;
+    QString currentColOne;
+    QString currentColTwo;
 };
 
 #endif // DIALOG2_H

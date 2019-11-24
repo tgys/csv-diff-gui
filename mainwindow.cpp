@@ -130,13 +130,13 @@ void MainWindow::onNewUpdatePressed()
             if (ses->returnCols_two().contains(colOne))
             {
                 qDebug() << "equivalent found";
-                ses->addEquivalent(colOne, colOne);
+                ses->setEquivalent(colOne, colOne);
             }
             else
             {
                 qDebug() << "no matches found";
                 QString q = "NO MATCHES";
-                ses->addEquivalent(colOne, q);
+                ses->setEquivalent(colOne, q);
             }
         }
 

@@ -48,7 +48,7 @@ class Session
 
     QString getEquivalent(QString &str) const {return d->equivalents[str]; }
     QHash<QString, QString> returnEquivalents() { return d->equivalents; }
-    void addEquivalent(QString &first, QString &second) { d->equivalents[first] = second; }
+    void setEquivalent(QString &first, QString &second) { d->equivalents[first] = second; }
 
     void incTablesLoaded() {
         if (d->tablesloaded < 2) { d->tablesloaded++; }
