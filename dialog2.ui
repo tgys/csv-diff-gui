@@ -14,12 +14,6 @@
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="1" column="4">
-    <widget class="QTableView" name="tableView_2"/>
-   </item>
-   <item row="1" column="1">
-    <widget class="QTableView" name="tableView"/>
-   </item>
    <item row="8" column="1">
     <widget class="QPushButton" name="pushButton">
      <property name="text">
@@ -77,6 +71,12 @@
       <string>column in table 2:</string>
      </property>
     </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QTableView" name="tableView"/>
+   </item>
+   <item row="1" column="4">
+    <widget class="QTableView" name="tableView_2"/>
    </item>
   </layout>
  </widget>

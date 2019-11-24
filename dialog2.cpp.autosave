@@ -28,9 +28,7 @@ Dialog2::Dialog2(QWidget *parent, Session *s) :
         rowItems.append(new QStandardItem(QString::number(eqCol)));
         eqvModel->insertRow(eqvModel->rowCount(), rowItems);
     }
-
-    //qDebug() << s->returnCols_one().last();
-  //  qDebug() <<
+    
 }
 
 
