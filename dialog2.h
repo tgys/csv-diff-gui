@@ -24,6 +24,10 @@ private slots:
     void onBoxOneActivated(const QString &text);
     void onBoxTwoActivated(const QString &text);
     void onNewColumnUpdate();
+    void onNewOkPressed();
+
+signals:
+    void newOkColumns();
 
 private:
     Ui::Dialog2 *ui;

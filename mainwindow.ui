@@ -15,23 +15,30 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="2" column="0">
-     <widget class="QTableView" name="tableView"/>
-    </item>
     <item row="2" column="1">
      <widget class="QTableView" name="tableView_2"/>
-    </item>
-    <item row="1" column="0">
-     <widget class="QLabel" name="label">
-      <property name="text">
-       <string>select a csv file for table one</string>
-      </property>
-     </widget>
     </item>
     <item row="1" column="1">
      <widget class="QLabel" name="label_2">
       <property name="text">
        <string>select a csv file for table two</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string>number of rows changed:      </string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QTableView" name="tableView"/>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>select a csv file for table one</string>
       </property>
      </widget>
     </item>
@@ -50,34 +57,82 @@
     <property name="title">
      <string>file</string>
     </property>
+    <addaction name="actionsave_session"/>
+    <addaction name="actionsave_session_as"/>
    </widget>
    <widget class="QMenu" name="menuedit">
     <property name="title">
      <string>edit</string>
     </property>
+    <addaction name="actionchoose_new_files"/>
+    <addaction name="actionchange_column_options"/>
    </widget>
    <widget class="QMenu" name="menutools">
     <property name="title">
      <string>tools</string>
     </property>
-   </widget>
-   <widget class="QMenu" name="menuwindow">
-    <property name="title">
-     <string>window</string>
-    </property>
+    <addaction name="actionview_modified_rows"/>
    </widget>
    <widget class="QMenu" name="menuhelp">
     <property name="title">
      <string>help</string>
     </property>
+    <addaction name="actionmanual_Ctrl_H"/>
    </widget>
    <addaction name="menufile"/>
    <addaction name="menuedit"/>
    <addaction name="menutools"/>
-   <addaction name="menuwindow"/>
    <addaction name="menuhelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionview_modified_rows">
+   <property name="text">
+    <string>modified rows   &lt;Ctrl+R&gt;</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
+   </property>
+  </action>
+  <action name="actionchoose_new_files">
+   <property name="text">
+    <string>select new tables  &lt;Ctrl+T&gt;</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+T</string>
+   </property>
+  </action>
+  <action name="actionchange_column_options">
+   <property name="text">
+    <string>column options     &lt;Ctrl+Shift+C&gt;</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+C</string>
+   </property>
+  </action>
+  <action name="actionsave_session">
+   <property name="text">
+    <string>save session        &lt;Ctrl+S&gt;</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionsave_session_as">
+   <property name="text">
+    <string>save session as   &lt;Ctrl+Shift+S&gt;</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+S</string>
+   </property>
+  </action>
+  <action name="actionmanual_Ctrl_H">
+   <property name="text">
+    <string>manual  &lt;Ctrl+H&gt;</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+H</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

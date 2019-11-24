@@ -6,6 +6,7 @@
 #include <QFile>
 #include <QTextStream>
 #include "dialog2.h"
+#include "uniquekeys.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -126,11 +127,14 @@ void MainWindow::onNewUpdatePressed()
     qDebug() << ses->getTablesLoaded();
     if (ses->getTablesLoaded() == 2)
     {
+        int first = 1;
         for (QString colOne : ses->returnCols_one()) { //set default pairings
             if (ses->returnCols_two().contains(colOne))
             {
                 qDebug() << "equivalent found";
                 ses->setEquivalent(colOne, colOne);
+                QString none = "NONE";
+                if (first) { ses->setModified(none, none); first = 0; }
             }
             else
             {
@@ -142,12 +146,33 @@ void MainWindow::onNewUpdatePressed()
 
         Dialog2 *dialog2;
         dialog2 = new Dialog2(this,ses);
+        QObject::connect(dialog2, SIGNAL(newOkColumns()), this, SLOT(onNewOkColumns()));
         dialog2->setModal(true);
 
-        qDebug() << "ahh";
+        qDebug() << "main window created dialog2";
         dialog2->show();
     }
 }
+
+void MainWindow::onNewOkColumns()
+{
+    qDebug() << "on new ok columns reached";
+    if (ses->getTablesLoaded() == 2){
+        UniqueKeys *ukeys;
+        ukeys = new UniqueKeys(this,ses);
+        QObject::connect(ukeys, SIGNAL(newOkKeys()), this, SLOT(onNewOkKeys()));
+        ukeys->setModal(true);
+
+        qDebug() << "main window created ukeys";
+        ukeys->show();
+    }
+}
+
+void MainWindow::onNewOkKeys()
+{
+    qDebug() << "on new ok keys";
+}
+
 
 MainWindow::~MainWindow()
 {

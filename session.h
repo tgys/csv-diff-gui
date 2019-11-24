@@ -16,6 +16,8 @@ public:
     QHash<QString, int> fileonecolumns;
     QHash<QString, int> filetwocolumns;
     QHash<QString, QString> equivalents;
+    QHash<QString, QString> modified;
+    QList<QString> uniquekeys;
 };
 
 class Session
@@ -49,6 +51,15 @@ class Session
     QString getEquivalent(QString &str) const {return d->equivalents[str]; }
     QHash<QString, QString> returnEquivalents() { return d->equivalents; }
     void setEquivalent(QString &first, QString &second) { d->equivalents[first] = second; }
+
+    QString getModified(QString &str) const {return d->modified[str]; }
+    QHash<QString, QString> returnModified() { return d->modified; }
+    void setModified(QString &first, QString &second) { d->modified[first] = second; }
+
+    QList<QString> returnUniqueKeys() { return d->uniquekeys; }
+    void addUniqueKey(QString &key) { d->uniquekeys.append(key); }
+    void clearUniqueKeys() {d->uniquekeys.clear(); }
+    void removeUniqueKey(QString &key) { d->uniquekeys.removeAll(key); }
 
     void incTablesLoaded() {
         if (d->tablesloaded < 2) { d->tablesloaded++; }

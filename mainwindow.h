@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QStandardItemModel>
 #include "session.h"
+#include "uniquekeys.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,6 +18,8 @@ public slots:
     void onNewTextOneEntered(const QString &text);
     void onNewTextTwoEntered(const QString &text);
     void onNewUpdatePressed();
+    void onNewOkColumns();
+    void onNewOkKeys();
 
 public:
     MainWindow(QWidget *parent = nullptr);

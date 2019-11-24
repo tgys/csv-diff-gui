@@ -21,18 +21,21 @@ SOURCES += \
     dialog2.cpp \
     main.cpp \
     mainwindow.cpp \
-    session.cpp
+    session.cpp \
+    uniquekeys.cpp
 
 HEADERS += \
     dialog.h \
     dialog2.h \
     mainwindow.h \
-    session.h
+    session.h \
+    uniquekeys.h
 
 FORMS += \
     dialog.ui \
     dialog2.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    uniquekeys.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
