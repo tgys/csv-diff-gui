@@ -49,6 +49,7 @@ void MainWindow::updateTableOne()
 {
     QFile file(ses->getFileOnePath());
     numrows_one = 0;
+    ses->clearCols_one();
     if ( !file.open(QFile::ReadOnly | QFile::Text) ) {
         qDebug() << "File does not exist";
     } else {
@@ -63,6 +64,7 @@ void MainWindow::updateTableOne()
                 qDebug() << ses->getColNum_one(item);
                 colCount++;
             }
+        csvModelOne->clear();
         while (!in.atEnd())
         {
             QString line = in.readLine();
@@ -73,6 +75,11 @@ void MainWindow::updateTableOne()
             }
             csvModelOne->insertRow(csvModelOne->rowCount(), rowItems);
         }
+        if (ses->getTablesLoaded() == 2)
+        {
+            ses->clearEquivalent();
+            updateEquivalents();
+        }
         file.close();
     }
 }
@@ -81,6 +88,7 @@ void MainWindow::updateTableTwo()
 {
     QFile file(ses->getFileTwoPath());
     numrows_two = 0;
+    ses->clearCols_two();
     if ( !file.open(QFile::ReadOnly | QFile::Text) ) {
         qDebug() << "File does not exist";
     } else {
@@ -94,6 +102,7 @@ void MainWindow::updateTableTwo()
                 qDebug() << ses->getColNum_two(item);
                 colCount++;
             }
+        csvModelTwo->clear();
         while (!in.atEnd())
         {
             QString line = in.readLine();
@@ -103,6 +112,11 @@ void MainWindow::updateTableTwo()
                 rowItems.append(new QStandardItem(item));
             }
             csvModelTwo->insertRow(csvModelTwo->rowCount(), rowItems);
+        }
+        if (ses->getTablesLoaded() == 2)
+        {
+            ses->clearEquivalent();
+            updateEquivalents();
         }
         file.close();
     }
@@ -127,29 +141,33 @@ void MainWindow::onNewTextTwoEntered(const QString &text)
     updateTableTwo();
 }
 
+void MainWindow::updateEquivalents()
+{
+     int first = 1;
+     for (QString colOne : ses->returnCols_one())
+     {                                                    //set default pairings
+         if (ses->returnCols_two().contains(colOne))
+         {
+             qDebug() << "equivalent found";
+             ses->setEquivalent(colOne, colOne);
+             QString none = "NONE";
+             if (first) { ses->setModified(none, none); first = 0; }
+         }
+         else
+         {
+             qDebug() << "no matches found";
+             QString q = "NO MATCHES";
+             ses->setEquivalent(colOne, q);
+         }
+     }
+}
+
 void MainWindow::onNewUpdatePressed()
 {
     qDebug() << ses->getTablesLoaded();
     if (ses->getTablesLoaded() == 2)
     {
-        int first = 1;
-        for (QString colOne : ses->returnCols_one())
-        {                                                    //set default pairings
-            if (ses->returnCols_two().contains(colOne))
-            {
-                qDebug() << "equivalent found";
-                ses->setEquivalent(colOne, colOne);
-                QString none = "NONE";
-                if (first) { ses->setModified(none, none); first = 0; }
-            }
-            else
-            {
-                qDebug() << "no matches found";
-                QString q = "NO MATCHES";
-                ses->setEquivalent(colOne, q);
-            }
-        }
-
+        updateEquivalents();
         Dialog2 *dialog2;
         dialog2 = new Dialog2(this,ses);
         QObject::connect(dialog2, SIGNAL(newOkColumns()), this, SLOT(onNewOkColumns()));
@@ -179,11 +197,11 @@ void MainWindow::onNewOkKeys()
     qDebug() << "on new ok keys";
     Results *res;
     res = new Results(this,ses);
-    QObject::connect(this, SIGNAL(newUpdateResultsChanged(int, int, int, int, QStandardItem *,
-                       QStandardItem *, QString &, QString &)), res, SLOT(onNewUpdateResultsChanged(int, int, int, int, QStandardItem *,
+    QObject::connect(this, SIGNAL(newUpdateResultsChanged(QList<QStandardItem *>, QList<QStandardItem *>, int, int, int, int, QStandardItem *,
+                       QStandardItem *, QString &, QString &)), res, SLOT(onNewUpdateResultsChanged(QList<QStandardItem *>, QList<QStandardItem *>, int, int, int, int, QStandardItem *,
                        QStandardItem *, QString &, QString &)));
-    QObject::connect(this, SIGNAL(newUpdateResultsExtras(int, int, QList<QStandardItem *>)), res,
-                     SLOT(onNewUpdateResultsExtras(int, int, QList<QStandardItem *>)));
+    QObject::connect(this, SIGNAL(newUpdateResultsExtras(int, QList<QStandardItem *>)), res,
+                     SLOT(onNewUpdateResultsExtras(int, QList<QStandardItem *>)));
     qDebug() << "main window created results";
    // res->show();
 
@@ -228,8 +246,29 @@ void MainWindow::onNewOkKeys()
 
                     if (textOne != textTwo)                   //if there is a non-matching entry in any of the remaining columns
                     {
-                        emit this->newUpdateResultsChanged(i, j, col_num_one, col_num_two, itemOne, itemTwo, textOne, textTwo);
-                    }                                         //add entry to list of changed tables
+                        QList<QStandardItem *> changedItems_one;
+                        changedItems_one.append(new QStandardItem(QString::number(i)));
+                        for (QString q : ses->returnCols_one())
+                        {
+                            int qcol = ses->getColNum_one(q);
+                            QStandardItem *itm = csvModelOne->item(i, qcol);
+                            QString txt = itm->text();
+                            changedItems_one.append(new QStandardItem(txt));   //add item in the first row
+                        }
+
+                        QList<QStandardItem *> changedItems_two;
+                        changedItems_two.append(new QStandardItem(QString::number(i)));
+                        for (QString q : ses->returnCols_two())
+                        {
+                            int qcol = ses->getColNum_two(q);
+                            QStandardItem *itm = csvModelOne->item(i, qcol);
+                            QString txt = itm->text();
+                            changedItems_two.append(new QStandardItem(txt));   //add item in the first row
+                        }
+
+                        emit this->newUpdateResultsChanged(changedItems_one, changedItems_two, i, j, col_num_one, col_num_two,
+                                                           itemOne, itemTwo, textOne, textTwo);
+                    }   //add entry to list of changed tables
                 }
 
             }
@@ -237,6 +276,7 @@ void MainWindow::onNewOkKeys()
 
         if (rowsSkipped == numrows_two){                //if all rows in the second table were skipped
             QList<QStandardItem *> skippedRowItems;     //the row in the first table (i) is an extra row
+            skippedRowItems.append(new QStandardItem(QString::number(i)));
             for (QString q : ses->returnCols_one())
             {
                 int qcol = ses->getColNum_one(q);
@@ -244,7 +284,7 @@ void MainWindow::onNewOkKeys()
                 QString txt = itm->text();
                 skippedRowItems.append(new QStandardItem(txt));   //add item in the first row
             }
-            emit this->newUpdateResultsExtras(i, 1, skippedRowItems);     //add row to extras model
+            emit this->newUpdateResultsExtras(1, skippedRowItems);     //add row to extras model
         }
      }
 
@@ -283,6 +323,7 @@ void MainWindow::onNewOkKeys()
 
          if (rowsSkipped == numrows_one){                //if all rows in the first table were skipped
             QList<QStandardItem *> skippedRowTwoItems;     //the row in the second table (i) is an extra row
+            skippedRowTwoItems.append(new QStandardItem(QString::number(i)));
             for (QString q : ses->returnCols_two())
             {
                 int qcol = ses->getColNum_two(q);
@@ -290,7 +331,7 @@ void MainWindow::onNewOkKeys()
                 QString txt = itm2->text();
                 skippedRowTwoItems.append(new QStandardItem(txt));   //add item in the first row
             }
-            emit this->newUpdateResultsExtras(i, 2, skippedRowTwoItems);     //add row to extras model
+            emit this->newUpdateResultsExtras(2, skippedRowTwoItems);     //add row to extras model
         }
 
     }

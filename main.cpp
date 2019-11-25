@@ -26,6 +26,7 @@ int main(int argc, char *argv[])
     qDebug() << p2;
 
     */
+    QApplication::setStyle("plastique");
     QApplication a(argc, argv);
     MainWindow w;
     Dialog dialog;

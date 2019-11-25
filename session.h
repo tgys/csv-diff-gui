@@ -40,10 +40,12 @@ class Session
     void addCol_one(QString &str, int i) { d->fileonecolumns[str] = i; }
     const QStringList returnCols_one() {return d->fileonecolumns.keys(); }
     int getColNum_one(QString &col) { return d->fileonecolumns[col]; }
+    void clearCols_one() { d->fileonecolumns.clear(); }
 
     void addCol_two(QString &str, int i) { d->filetwocolumns[str] = i; }
     int getColNum_two(QString &col) { return d->filetwocolumns[col]; }
     const QStringList returnCols_two() {return d->filetwocolumns.keys(); }
+    void clearCols_two() { d->filetwocolumns.clear(); }
 
     int sizeofColsOne() { return d->fileonecolumns.size(); }
     int sizeofColsTwo() { return d->filetwocolumns.size(); }
@@ -54,6 +56,7 @@ class Session
     QString getEquivalent(QString &str) const {return d->equivalents[str]; }
     QHash<QString, QString> returnEquivalents() { return d->equivalents; }
     void setEquivalent(QString &first, QString &second) { d->equivalents[first] = second; }
+    void clearEquivalent() { d->equivalents.clear(); }
 
     QString getModified(QString &str) const {return d->modified[str]; }
     QHash<QString, QString> returnModified() { return d->modified; }

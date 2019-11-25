@@ -11,6 +11,7 @@ UniqueKeys::UniqueKeys(QWidget *parent, Session *s) :
     ui->comboBox->addItems(k_ses->returnCols_one());
     keyModel = new QStandardItemModel(this);
     ui->listView->setModel(keyModel);
+    num_instances++;
 
     QObject::connect(ui->pushButton, SIGNAL(released()), this, SLOT (onNewKeyUpdate()));
     QObject::connect(ui->pushButton_2, SIGNAL(released()), this, SLOT (onNewKeyRemove()));
@@ -33,6 +34,7 @@ void UniqueKeys::updateList()
 void UniqueKeys::onNewBoxActivated(const QString &col)
 {
     currentCol = col;
+    qDebug() << "number of instances of uniquekeys " << num_instances;
 }
 
 void UniqueKeys::onNewKeyUpdate()

@@ -33,6 +33,7 @@ private:
     QStandardItemModel *keyModel;
     QList<QString> keylist;
     QString currentCol;
+    int num_instances = 0;
 };
 
 #endif // UNIQUEKEYS_H
