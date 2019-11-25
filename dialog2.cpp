@@ -78,14 +78,14 @@ void Dialog2::onNewColumnUpdate()
 {
       d_ses->setEquivalent(currentColOne, currentColTwo);
       qDebug() << "set equivalents";
-      (modified)[currentColOne] = currentColTwo;
+      modified[currentColOne] = currentColTwo;
       qDebug() << "set modified one";
      // d_ses->setModified(currentColOne, currentColTwo);
       if (d_ses->returnCols_one().contains(currentColTwo))
             {
                 d_ses->setEquivalent(currentColTwo, currentColOne);
                 //d_ses->setModified(currentColTwo, currentColOne);
-                (modified)[currentColTwo] = currentColOne;
+                modified[currentColTwo] = currentColOne;
             }
       modModel->clear();
       updateMods();
@@ -100,10 +100,10 @@ void Dialog2::onNewOkPressed()
      {
          d_ses->setModified(item, (modified)[item]);
          qDebug() << "setting modified : " << item << d_ses->getModified(item);
-         emit this->newOkColumns();
-         qDebug() << "emitted newokColumns ";
-         accept();
      }
+     emit this->newOkColumns();
+     accept();
+     qDebug() << "emitted newokColumns ";
 }
 
 Dialog2::~Dialog2()
