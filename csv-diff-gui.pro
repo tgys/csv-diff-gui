@@ -23,7 +23,7 @@ SOURCES += \
     mainwindow.cpp \
     results.cpp \
     session.cpp \
-    uniquekeys.cpp
+    u_widget.cpp
 
 HEADERS += \
     dialog.h \
@@ -31,14 +31,14 @@ HEADERS += \
     mainwindow.h \
     results.h \
     session.h \
-    uniquekeys.h
+    u_widget.h
 
 FORMS += \
     dialog.ui \
     dialog2.ui \
     mainwindow.ui \
     results.ui \
-    uniquekeys.ui
+    u_widget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

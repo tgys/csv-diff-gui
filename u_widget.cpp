@@ -1,10 +1,10 @@
-#include "uniquekeys.h"
-#include "ui_uniquekeys.h"
+#include "u_widget.h"
+#include "ui_u_widget.h"
 #include <QDebug>
 
-UniqueKeys::UniqueKeys(QWidget *parent, Session *s) :
-    QDialog(parent),
-    ui(new Ui::UniqueKeys)
+u_widget::u_widget(QWidget *parent, Session *s) :
+    QGroupBox(parent),
+    ui(new Ui::u_widget)
 {
     ui->setupUi(this);
     k_ses = s;
@@ -12,17 +12,17 @@ UniqueKeys::UniqueKeys(QWidget *parent, Session *s) :
     keyModel = new QStandardItemModel(this);
     ui->listView->setModel(keyModel);
     num_instances++;
-
+    this->setWindowFlags(Qt::FramelessWindowHint|Qt::NoDropShadowWindowHint| Qt::Window);
+    qDebug() << "setting window flags on u_widget";
     QObject::connect(ui->pushButton, SIGNAL(released()), this, SLOT (onNewKeyUpdate()));
     QObject::connect(ui->pushButton_2, SIGNAL(released()), this, SLOT (onNewKeyRemove()));
     QObject::connect(ui->comboBox, SIGNAL(activated(const QString &)),
                      this, SLOT(onNewBoxActivated(const QString &)));
     QObject::connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT (onNewOkPressed()));
-
+    qDebug() << "connected signals on u_widget";
 }
 
-
-void UniqueKeys::updateList()
+void u_widget::updateList()
 {
     for (QString item : keylist) {
         QList<QStandardItem *> rowItems;
@@ -31,13 +31,13 @@ void UniqueKeys::updateList()
     }
 }
 
-void UniqueKeys::onNewBoxActivated(const QString &col)
+void u_widget::onNewBoxActivated(const QString &col)
 {
     currentCol = col;
     qDebug() << "number of instances of uniquekeys " << num_instances;
 }
 
-void UniqueKeys::onNewKeyUpdate()
+void u_widget::onNewKeyUpdate()
 {
     keylist.append(currentCol);
     qDebug() << "added unique key " << currentCol;
@@ -45,7 +45,7 @@ void UniqueKeys::onNewKeyUpdate()
     updateList();
 }
 
-void UniqueKeys::onNewKeyRemove()
+void u_widget::onNewKeyRemove()
 {
     keylist.removeAll(currentCol);
     qDebug() << "removed unique key " << currentCol;
@@ -53,8 +53,7 @@ void UniqueKeys::onNewKeyRemove()
     updateList();
 }
 
-
-void UniqueKeys::onNewOkPressed()
+void u_widget::onNewOkPressed()
 {
      k_ses->clearUniqueKeys();
      for (QString item : keylist)
@@ -62,11 +61,11 @@ void UniqueKeys::onNewOkPressed()
          k_ses->addUniqueKey(item);
          qDebug() << "setting uniquekeys from keylist";
          emit this->newOkKeys();
-         accept();
+         //accept();
      }
 }
 
-UniqueKeys::~UniqueKeys()
+u_widget::~u_widget()
 {
     delete ui;
 }

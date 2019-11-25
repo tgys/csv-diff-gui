@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <QStandardItemModel>
 #include "session.h"
-#include "uniquekeys.h"
+#include "u_widget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -22,8 +22,8 @@ public slots:
     void onNewOkKeys();
 
 signals:
-    void newUpdateResultsChanged(QList<QStandardItem *> itemsOne, QList<QStandardItem *> itemsTwo, int row_one, int row_two, int col_one, int col_two, QStandardItem *item_one,
-                       QStandardItem *item_two, QString &text1, QString &text2);
+    void newUpdateResultsChanged(QList<QStandardItem *> itemsOne, QList<QStandardItem *> itemsTwo, int row_one, int row_two, int col_one, int col_two, QStandardItem &item_one,
+                       QStandardItem &item_two, QString &text1, QString &text2);
     void newUpdateResultsExtras(int one_or_two, QList<QStandardItem *> items);
 
 public:

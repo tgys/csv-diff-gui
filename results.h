@@ -18,8 +18,9 @@ public:
     ~Results();
 
 public slots:
-    void onNewUpdateResultsChanged(QList<QStandardItem *> itemsOne, QList<QStandardItem *> itemsTwo, int row_one, int row_two, int col_one, int col_two, QStandardItem *item_one,
-                       QStandardItem *item_two, QString &text1, QString &text2);
+    void onNewUpdateResultsChanged(QList<QStandardItem *> itemsOne, QList<QStandardItem *> itemsTwo,
+               int row_one, int row_two, int col_one, int col_two, QStandardItem &item_one,
+                       QStandardItem &item_two, QString &text1, QString &text2);
     void onNewUpdateResultsExtras(int one_or_two, QList<QStandardItem *> items);
 
 private:

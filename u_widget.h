@@ -1,22 +1,22 @@
-#ifndef UNIQUEKEYS_H
-#define UNIQUEKEYS_H
+#ifndef U_WIDGET_H
+#define U_WIDGET_H
 
-#include <QDialog>
+#include <QGroupBox>
 #include <QStandardItemModel>
 #include "session.h"
 
 namespace Ui {
-class UniqueKeys;
+class u_widget;
 }
 
-class UniqueKeys : public QDialog
+class u_widget : public QGroupBox
 {
     Q_OBJECT
 
 public:
-    explicit UniqueKeys(QWidget *parent = nullptr, Session *ses = nullptr);
+    explicit u_widget(QWidget *parent = nullptr, Session *ses = nullptr);
     void updateList();
-    ~UniqueKeys();
+    ~u_widget();
 
 private slots:
     void onNewBoxActivated(const QString &text);
@@ -28,12 +28,12 @@ signals:
     void newOkKeys();
 
 private:
-    Ui::UniqueKeys *ui;
+    Ui::u_widget *ui;
     Session *k_ses;
     QStandardItemModel *keyModel;
-    QList<QString> keylist;
+    QList<QString> keylist = QList<QString>();
     QString currentCol;
     int num_instances = 0;
 };
 
-#endif // UNIQUEKEYS_H
+#endif // U_WIDGET_H
