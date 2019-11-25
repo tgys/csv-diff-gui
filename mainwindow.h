@@ -33,5 +33,8 @@ private:
     Session *ses;
     QStandardItemModel *csvModelOne;
     QStandardItemModel *csvModelTwo;
+
+    int numrows_one;
+    int numrows_two;
 };
 #endif // MAINWINDOW_H

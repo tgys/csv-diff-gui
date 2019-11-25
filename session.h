@@ -45,6 +45,9 @@ class Session
     int getColNum_two(QString &col) { return d->filetwocolumns[col]; }
     const QStringList returnCols_two() {return d->filetwocolumns.keys(); }
 
+    int sizeofColsOne() { return d->fileonecolumns.size(); }
+    int sizeofColsTwo() { return d->filetwocolumns.size(); }
+
     QString getFileOnePath() const { return d->fileonepath; }
     QString getFileTwoPath() const { return d->filetwopath; }
 
@@ -56,9 +59,10 @@ class Session
     QHash<QString, QString> returnModified() { return d->modified; }
     void setModified(QString &first, QString &second) { d->modified[first] = second; }
 
-    QList<QString> returnUniqueKeys() { return d->uniquekeys; }
+    bool inUniqueKeys(QString &col) { return d->uniquekeys.contains(col); }
     void addUniqueKey(QString &key) { d->uniquekeys.append(key); }
     void clearUniqueKeys() {d->uniquekeys.clear(); }
+    QList<QString> returnUniqueKeys() { return d->uniquekeys; }
     void removeUniqueKey(QString &key) { d->uniquekeys.removeAll(key); }
 
     void incTablesLoaded() {

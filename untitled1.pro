@@ -21,6 +21,7 @@ SOURCES += \
     dialog2.cpp \
     main.cpp \
     mainwindow.cpp \
+    results.cpp \
     session.cpp \
     uniquekeys.cpp
 
@@ -28,6 +29,7 @@ HEADERS += \
     dialog.h \
     dialog2.h \
     mainwindow.h \
+    results.h \
     session.h \
     uniquekeys.h
 
@@ -35,6 +37,7 @@ FORMS += \
     dialog.ui \
     dialog2.ui \
     mainwindow.ui \
+    results.ui \
     uniquekeys.ui
 
 # Default rules for deployment.

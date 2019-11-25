@@ -7,6 +7,7 @@
 #include <QTextStream>
 #include "dialog2.h"
 #include "uniquekeys.h"
+#include "results.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -47,6 +48,7 @@ void MainWindow::getDiffs()
 void MainWindow::updateTableOne()
 {
     QFile file(ses->getFileOnePath());
+    numrows_one = 0;
     if ( !file.open(QFile::ReadOnly | QFile::Text) ) {
         qDebug() << "File does not exist";
     } else {
@@ -64,6 +66,7 @@ void MainWindow::updateTableOne()
         while (!in.atEnd())
         {
             QString line = in.readLine();
+            numrows_one++;
             QList<QStandardItem *> rowItems;
             for (QString item : line.split(",")) {
                 rowItems.append(new QStandardItem(item));
@@ -77,6 +80,7 @@ void MainWindow::updateTableOne()
 void MainWindow::updateTableTwo()
 {
     QFile file(ses->getFileTwoPath());
+    numrows_two = 0;
     if ( !file.open(QFile::ReadOnly | QFile::Text) ) {
         qDebug() << "File does not exist";
     } else {
@@ -93,6 +97,7 @@ void MainWindow::updateTableTwo()
         while (!in.atEnd())
         {
             QString line = in.readLine();
+            numrows_two++;
             QList<QStandardItem *> rowItems;
             for (QString item : line.split(",")) {
                 rowItems.append(new QStandardItem(item));
@@ -128,7 +133,8 @@ void MainWindow::onNewUpdatePressed()
     if (ses->getTablesLoaded() == 2)
     {
         int first = 1;
-        for (QString colOne : ses->returnCols_one()) { //set default pairings
+        for (QString colOne : ses->returnCols_one())
+        {                                                    //set default pairings
             if (ses->returnCols_two().contains(colOne))
             {
                 qDebug() << "equivalent found";
@@ -156,7 +162,7 @@ void MainWindow::onNewUpdatePressed()
 
 void MainWindow::onNewOkColumns()
 {
-    qDebug() << "on new ok columns reached";
+    qDebug() << "on new ok columns";
     if (ses->getTablesLoaded() == 2){
         UniqueKeys *ukeys;
         ukeys = new UniqueKeys(this,ses);
@@ -171,6 +177,72 @@ void MainWindow::onNewOkColumns()
 void MainWindow::onNewOkKeys()
 {
     qDebug() << "on new ok keys";
+    Results *res;
+    res = new Results(this,ses);
+   // QObject::connect(res, SIGNAL(newOkResult()), this, SLOT(onNewOkResult()));
+    qDebug() << "main window created ukeys";
+   // res->show();
+
+    for (int i = 0; i < numrows_one; i++)
+    {
+        int rowsSkipped = 0;
+        for (int j = 0; j < numrows_two; j++)
+        {
+
+            int skipRow = 0;
+            for (QString uniqueCol : ses->returnUniqueKeys())
+            {
+                QString uniqueCol_two = ses->getEquivalent(uniqueCol);
+                int ucol_num_one = ses->getColNum_one(uniqueCol);
+                int ucol_num_two = ses->getColNum_two(uniqueCol_two);
+                QStandardItem *uitemOne = csvModelOne->item(i, ucol_num_one);
+                QStandardItem *uitemTwo = csvModelTwo->item(i, ucol_num_two);
+                QString utextOne = uitemOne->text();
+                QString utextTwo = uitemTwo->text();
+
+                if (utextOne != utextTwo)
+                {
+                    skipRow = 1;
+                    rowsSkipped++;
+                    break;
+                }
+             }
+
+            if (skipRow) { continue; }
+
+            for (QString colName_one : ses->returnCols_one())
+            {
+                if (!ses->inUniqueKeys(colName_one))
+                {
+                    QString colName_two = ses->getEquivalent(colName_one);
+                    int col_num_one = ses->getColNum_one(colName_one);
+                    int col_num_two = ses->getColNum_two(colName_two);
+                    QStandardItem *itemOne = csvModelOne->item(i, col_num_one);
+                    QStandardItem *itemTwo = csvModelTwo->item(i, col_num_two);
+                    QString textOne = itemOne->text();
+                    QString textTwo = itemTwo->text();
+
+                    if (textOne != textTwo)
+                    {
+                        res->updateChanged(i, j, col_num_one, col_num_two, itemOne, itemTwo, textOne, textTwo);
+                    }
+                }
+
+            }
+        }
+
+        if (rowsSkipped == numrows_two){
+            QList<QStandardItem *> skippedRowItems;
+            for (QString q : ses->returnCols_one())
+            {
+                int qcol = ses->getColNum_one(q);
+                QStandardItem *itm = csvModelOne->item(i, qcol);
+                QString txt = itm->text();
+                skippedRowItems.append(new QStandardItem(txt));
+            }
+             res->updateExtras(i, 1, skippedRowItems);
+        }
+     }
 }
 
 
