@@ -15,10 +15,12 @@ class Results : public QDialog
 
 public:
     explicit Results(QWidget *parent = nullptr, Session *s = nullptr);
-    void updateChanged(int row_one, int row_two, int col_one, int col_two, QStandardItem *item_one,
-                       QStandardItem *item_two, QString &text1, QString &text2);
-    void updateExtras(int row, int one_or_two, QList<QStandardItem *> items);
     ~Results();
+
+public slots:
+    void onNewUpdateResultsChanged(int row_one, int row_two, int col_one, int col_two, QStandardItem *item_one,
+                       QStandardItem *item_two, QString &text1, QString &text2);
+    void onNewUpdateResultsExtras(int row, int one_or_two, QList<QStandardItem *> items);
 
 private:
     Ui::Results *ui;

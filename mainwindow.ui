@@ -28,7 +28,7 @@
     <item row="3" column="0">
      <widget class="QLabel" name="label_3">
       <property name="text">
-       <string>number of rows changed:      </string>
+       <string>number of rows in table one changed</string>
       </property>
      </widget>
     </item>
@@ -39,6 +39,13 @@
      <widget class="QLabel" name="label">
       <property name="text">
        <string>select a csv file for table one</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QLabel" name="label_4">
+      <property name="text">
+       <string>number of rows in table two changed:</string>
       </property>
      </widget>
     </item>

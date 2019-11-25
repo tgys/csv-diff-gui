@@ -21,6 +21,11 @@ public slots:
     void onNewOkColumns();
     void onNewOkKeys();
 
+signals:
+    void newUpdateResultsChanged(int row_one, int row_two, int col_one, int col_two, QStandardItem *item_one,
+                       QStandardItem *item_two, QString &text1, QString &text2);
+    void newUpdateResultsExtras(int row, int one_or_two, QList<QStandardItem *> items);
+
 public:
     MainWindow(QWidget *parent = nullptr);
     void updateTableOne();

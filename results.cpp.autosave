@@ -16,7 +16,14 @@ Results::Results(QWidget *parent, Session *s) :
 
 void Results::onNewUpdateResultsExtras(int row, int one_or_two, QList<QStandardItem *> items)
 {
-
+    if (one_or_two == 1)   //if extra row is in table one
+    {
+        
+    }
+    else
+    {
+        
+    }
 }
 
 void Results::onNewUpdateResultsChanged(int row_one, int row_two, int col_one, int col_two, QStandardItem *item_one,
