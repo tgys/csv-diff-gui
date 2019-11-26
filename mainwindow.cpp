@@ -56,7 +56,7 @@ void MainWindow::updateTableOne()
         ses->incTablesLoaded();
         QTextStream in(&file);
         QString firstline = in.readLine();
-        int colCount = 1;
+        int colCount = 0;
         for (QString item : firstline.split(",")) {
                 //qDebug() << item;
                 ses->addCol_one(item,colCount);
@@ -74,6 +74,11 @@ void MainWindow::updateTableOne()
                 rowItems.append(new QStandardItem(item));
             }
             csvModelOne->insertRow(csvModelOne->rowCount(), rowItems);
+
+            /*qDebug() << "rowCount() is " << csvModelOne->rowCount();
+            qDebug() << "numrows_one is " << numrows_one;
+            QStandardItem *itemT = csvModelOne->item(csvModelOne->rowCount()-1);
+            qDebug() << "UPDATE TABLE ONE: item at column one, in this row, is: " << itemT->text(); */
         }
         if (ses->getTablesLoaded() == 2)
         {
@@ -95,7 +100,7 @@ void MainWindow::updateTableTwo()
         ses->incTablesLoaded();
         QTextStream in(&file);
         QString firstline = in.readLine();
-        int colCount = 1;
+        int colCount = 0;
         for (QString item : firstline.split(",")) {
                 ses->addCol_two(item,colCount);
                 qDebug() << item;
@@ -206,7 +211,7 @@ void MainWindow::onNewOkKeys()
     qDebug() << "main window created results";
     res->show();
 
-    for (int i = 1; i <= numrows_one; i++)     // for each row in the first table
+    for (int i = 0; i < numrows_one; i++)     // for each row in the first table
     {
         qDebug() << "FIRST TABLE: looking at row in table one, inside first loop";
         int rowsSkipped = 0;
@@ -221,7 +226,7 @@ void MainWindow::onNewOkKeys()
                 int ucol_num_one = ses->getColNum_one(uniqueCol);
                 int ucol_num_two = ses->getColNum_two(uniqueCol_two);
                 QStandardItem *uitemOne = csvModelOne->item(i, ucol_num_one);
-                QStandardItem *uitemTwo = csvModelTwo->item(i, ucol_num_two);
+                QStandardItem *uitemTwo = csvModelTwo->item(j, ucol_num_two);
                 QString utextOne = uitemOne->text();             // get text from matched entries
                 QString utextTwo = uitemTwo->text();
 
@@ -247,7 +252,7 @@ void MainWindow::onNewOkKeys()
                     int col_num_one = ses->getColNum_one(colName_one);
                     int col_num_two = ses->getColNum_two(colName_two);
                     QStandardItem *itemOne = csvModelOne->item(i, col_num_one);
-                    QStandardItem *itemTwo = csvModelTwo->item(i, col_num_two);
+                    QStandardItem *itemTwo = csvModelTwo->item(j, col_num_two);
                     QString textOne = itemOne->text();
                     QString textTwo = itemTwo->text();
 
@@ -260,17 +265,17 @@ void MainWindow::onNewOkKeys()
                             int qcol = ses->getColNum_one(q);
                             QStandardItem *itm = csvModelOne->item(i, qcol);
 
-                            QStandardItem *itm_prev = csvModelOne->item(i-1, qcol);
-                            QStandardItem *itm_next = csvModelOne->item(i+1, qcol);
+                            qDebug() << "qcol number is " << qcol;
 
                             QString teststring = QString("Milestone Date");
                             int milestone_col = ses->getColNum_one(teststring);
+
                             qDebug() << "column number of milestone date: " << milestone_col;
-                            //QStandardItem *itm_mile = csvModelOne->item(i, milestone_col);
-                            //qDebug() << "item in milestone date: " << itm_mile->text();
 
+                            QStandardItem *itm_mile = csvModelOne->item(i);
+                            qDebug() << "item in milestone date: " << itm_mile->text();
 
-                            qDebug() << "item before: " << itm_prev->text() << "  item after: " << itm_next->text();
+                            //qDebug() << "item before: " << itm_prev->text() << "  item after: " << itm_next->text();
                             QString txt = itm->text();
                             changedItems_one.append(new QStandardItem(txt));   //add item in the first row
                             qDebug() << "FIRST TABLE: added item to ROW of changedItems_ONE";
@@ -349,7 +354,7 @@ void MainWindow::onNewOkKeys()
                  QString uniqueCol_two = reverseEquivalent[uniqueCol];  //find matching column in 1st table
                  int ucol_num_one = ses->getColNum_one(uniqueCol);
                  int ucol_num_two = ses->getColNum_two(uniqueCol_two);
-                 QStandardItem *uitemOne = csvModelOne->item(i, ucol_num_one);
+                 QStandardItem *uitemOne = csvModelOne->item(j, ucol_num_one);
                  QStandardItem *uitemTwo = csvModelTwo->item(i, ucol_num_two);
                  QString utextOne = uitemOne->text();             // get text from matched entries
                  QString utextTwo = uitemTwo->text();
