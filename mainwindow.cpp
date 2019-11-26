@@ -143,15 +143,15 @@ void MainWindow::onNewTextTwoEntered(const QString &text)
 
 void MainWindow::updateEquivalents()
 {
-     int first = 1;
+     //int first = 1;
      for (QString colOne : ses->returnCols_one())
      {                                                    //set default pairings
          if (ses->returnCols_two().contains(colOne))
          {
              qDebug() << "equivalent found";
              ses->setEquivalent(colOne, colOne);
-             QString none = "NONE";
-             if (first) { ses->setModified(none, none); first = 0; }
+      //       QString none = "NONE";
+      //       if (first) { ses->setModified(none, none); first = 0; }
          }
          else
          {
@@ -210,7 +210,7 @@ void MainWindow::onNewOkKeys()
     {
         qDebug() << "FIRST TABLE: looking at row in table one, inside first loop";
         int rowsSkipped = 0;
-        for (int j = 1; j <= numrows_two; j++)    //for each row, check each row in 2nd table
+        for (int j = 0; j < numrows_two; j++)    //for each row, check each row in 2nd table
         {
             qDebug() << "FIRST TABLE: looking at row in table two, inside second loop";
             int skipRow = 0;
@@ -255,19 +255,33 @@ void MainWindow::onNewOkKeys()
                     {
                         qDebug() << "FIRST TABLE: found non matching entry in remaining columns";
                         QList<QStandardItem *> changedItems_one;
-                        changedItems_one.append(new QStandardItem(QString::number(i)));
                         for (QString q : ses->returnColOne_to_name())
                         {
                             int qcol = ses->getColNum_one(q);
                             QStandardItem *itm = csvModelOne->item(i, qcol);
+
+                            QStandardItem *itm_prev = csvModelOne->item(i-1, qcol);
+                            QStandardItem *itm_next = csvModelOne->item(i+1, qcol);
+
+                            QString teststring = QString("Milestone Date");
+                            int milestone_col = ses->getColNum_one(teststring);
+                            qDebug() << "column number of milestone date: " << milestone_col;
+                            //QStandardItem *itm_mile = csvModelOne->item(i, milestone_col);
+                            //qDebug() << "item in milestone date: " << itm_mile->text();
+
+
+                            qDebug() << "item before: " << itm_prev->text() << "  item after: " << itm_next->text();
                             QString txt = itm->text();
                             changedItems_one.append(new QStandardItem(txt));   //add item in the first row
                             qDebug() << "FIRST TABLE: added item to ROW of changedItems_ONE";
                             qDebug() << "FIRST TABLE: item added was " << txt << "IN COLUMN" << ses->getColOnetoName(qcol) << "NUMBER" << qcol;
                         }
+                        qDebug() << "FIRST TABLE: before appending row number to CHANGEDITEMS_ONE";
+                        changedItems_one.append(new QStandardItem(QString::number(i)));
+
+                        qDebug() << "FIRST TABLE: after appending row number to CHANGEDITEMS_ONE";
 
                         QList<QStandardItem *> changedItems_two;
-                        changedItems_two.append(new QStandardItem(QString::number(i)));
                         for (QString q : ses->returnColTwo_to_name())
                         {
                             int qcol = ses->getColNum_two(q);
@@ -277,6 +291,10 @@ void MainWindow::onNewOkKeys()
                             qDebug() << "FIRST TABLE: added item to ROW of changedItems_TWO";
                             qDebug() << "FIRST TABLE: item added was " << txt << "IN COLUMN" << ses->getColTwotoName(qcol) << "NUMBER" << qcol;
                         }
+                        qDebug() << "FIRST TABLE: before appending row number to CHANGEDITEMS_TWO";
+                        changedItems_two.append(new QStandardItem(QString::number(i)));
+
+                        qDebug() << "FIRST TABLE: BEFORE emitting CHANGED signal";
                         emit this->newUpdateResultsChanged(changedItems_one, changedItems_two, i, j, col_num_one, col_num_two,
                                                                            *itemOne, *itemTwo, textOne, textTwo);
                         qDebug() << "FIRST TABLE: emitted CHANGED signal";

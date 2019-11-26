@@ -12,7 +12,7 @@ u_widget::u_widget(QWidget *parent, Session *s) :
     keyModel = new QStandardItemModel(this);
     ui->listView->setModel(keyModel);
     num_instances++;
-    this->setWindowFlags(Qt::FramelessWindowHint|Qt::NoDropShadowWindowHint| Qt::Window);
+    this->setWindowFlags(Qt::FramelessWindowHint|Qt::NoDropShadowWindowHint| Qt::Dialog);
     qDebug() << "setting window flags on u_widget";
     QObject::connect(ui->pushButton, SIGNAL(released()), this, SLOT (onNewKeyUpdate()));
     QObject::connect(ui->pushButton_2, SIGNAL(released()), this, SLOT (onNewKeyRemove()));

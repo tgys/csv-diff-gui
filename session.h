@@ -26,7 +26,19 @@ public:
 class Session
 {
   public:
-    Session() { d = new sessionData; d->tablesloaded = 0; }
+    Session() {
+        d = new sessionData;
+        d->tablesloaded = 0;
+
+        QHash<QString, int> fileonecolumns = QHash<QString, int>();
+        QHash<QString, int> filetwocolumns = QHash<QString, int>();
+        QMap<int, QString> colOne_to_name = QMap<int, QString>();
+        QMap<int, QString> colTwo_to_name = QMap<int, QString>();
+        QHash<QString, QString> equivalents = QHash<QString, QString>();
+        QHash<QString, QString> modified = QHash<QString, QString>();
+        QList<QString> uniquekeys = QList<QString>();
+
+    }
     Session(QString &onepath, QString &twopath) {
         d = new sessionData;
         setFileOnePath(onepath);
