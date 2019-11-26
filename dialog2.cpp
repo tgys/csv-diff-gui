@@ -1,12 +1,25 @@
 #include "dialog2.h"
 #include "ui_dialog2.h"
 #include <QDebug>
+#include <QFileDialog>
 
 Dialog2::Dialog2(QWidget *parent, Session *s) :
     QDialog(parent),
     ui(new Ui::Dialog2)
 {
     ui->setupUi(this);
+    QFile f(":qdarkstyle/style.qss");
+    if (!f.exists())
+    {
+        printf("Unable to set stylesheet, file not found\n");
+    }
+    else
+    {
+        f.open(QFile::ReadOnly | QFile::Text);
+        QTextStream ts(&f);
+        this->setStyleSheet(ts.readAll());
+    }
+
     d_ses = s;
     ui->comboBox->addItems(d_ses->returnCols_one());
     ui->comboBox_2->addItems(d_ses->returnCols_two());

@@ -44,3 +44,10 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += qdarkstyle/style.qrc
+
+SUBDIRS += \
+    Qt-Frameless-Window-DarkStyle/frameless_window_dark.pro
+
+DISTFILES +=

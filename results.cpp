@@ -2,14 +2,26 @@
 #include "ui_results.h"
 #include <QTableWidgetItem>
 #include <QDebug>
+#include <QFileDialog>
 
 Results::Results(QWidget *parent, Session *s) :
     QDialog(parent),
     ui(new Ui::Results)
 {
     ui->setupUi(this);
-    r_ses = s;
+    QFile f(":qdarkstyle/style.qss");
+    if (!f.exists())
+    {
+        printf("Unable to set stylesheet, file not found\n");
+    }
+    else
+    {
+        f.open(QFile::ReadOnly | QFile::Text);
+        QTextStream ts(&f);
+        this->setStyleSheet(ts.readAll());
+    }
 
+    r_ses = s;
     diffModel = new QStandardItemModel(this);
     ui->tableView->setModel(diffModel);
     extrasModel_one = new QStandardItemModel(this);

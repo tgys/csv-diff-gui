@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.10.2, 2019-11-25T22:48:19. -->
+<!-- Written by QtCreator 4.10.2, 2019-11-26T11:36:00. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -57,6 +57,14 @@
   <valuemap type="QVariantMap">
    <valuelist type="QVariantList" key="ClangCodeModel.CustomCommandLineKey"/>
    <value type="bool" key="ClangCodeModel.UseGlobalConfig">true</value>
+   <value type="bool" key="ClangTools.BuildBeforeAnalysis">true</value>
+   <value type="QString" key="ClangTools.DiagnosticConfig">Builtin.TidyAndClazy</value>
+   <valuelist type="QVariantList" key="ClangTools.SelectedDirs">
+    <value type="QString">/home/tei/csv-diff-gui/csv-diff-gui.pro</value>
+   </valuelist>
+   <valuelist type="QVariantList" key="ClangTools.SelectedFiles"/>
+   <valuelist type="QVariantList" key="ClangTools.SuppressedDiagnostics"/>
+   <value type="bool" key="ClangTools.UseGlobalSettings">true</value>
   </valuemap>
  </data>
  <data>

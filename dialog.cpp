@@ -11,6 +11,18 @@ Dialog::Dialog(QWidget *parent) :
 
 {
     ui->setupUi(this);
+    QFile f(":qdarkstyle/style.qss");
+    if (!f.exists())
+    {
+        printf("Unable to set stylesheet, file not found\n");
+    }
+    else
+    {
+        f.open(QFile::ReadOnly | QFile::Text);
+        QTextStream ts(&f);
+        this->setStyleSheet(ts.readAll());
+    }
+
     // Connect button signal to appropriate slot
     connect(ui->pushButton, SIGNAL (released()), this, SLOT (handleButtonOne()));
     connect(ui->pushButton_2, SIGNAL (released()), this, SLOT (handleButtonTwo()));

@@ -6,30 +6,26 @@
 #include <dialog2.h>
 #include <session.h>
 
+
 int main(int argc, char *argv[])
 {
-    /*Session *ses = new Session();
-    QFileInfo fi_one("/home/tei/Downloads/DRun/4.3/D1/ConditionIndices.csv");
-    QString fileName_one = fi_one.fileName();
-    QString fpath_one = fi_one.path();
-    ses->setFileOnePath(fpath_one);
-
-    QFileInfo fi_two("/home/tei/Downloads/DRun/4.4/D1/ConditionIndices.csv");
-    QString fileName_two = fi_two.fileName();
-    QString fpath_two = fi_two.path();
-    ses->setFileTwoPath(fpath_two);
-
-    QString p1 = ses->getFileOnePath();
-    QString p2 = ses->getFileTwoPath();
-
-    qDebug() << p1;
-    qDebug() << p2;
-
-    */
-    QApplication::setStyle("plastique");
     QApplication a(argc, argv);
+
     MainWindow w;
     Dialog dialog;
+
+    QFile f(":qdarkstyle/style.qss");
+    if (!f.exists())
+    {
+        printf("Unable to set stylesheet, file not found\n");
+    }
+    else
+    {
+        f.open(QFile::ReadOnly | QFile::Text);
+        QTextStream ts(&f);
+        w.setStyleSheet(ts.readAll());
+    }
+
     QObject::connect(&dialog, SIGNAL(newTextOneEntered(const QString&)),
                      &w, SLOT(onNewTextOneEntered(const QString&)));
     QObject::connect(&dialog, SIGNAL(newTextTwoEntered(const QString&)),

@@ -1,12 +1,25 @@
 #include "u_widget.h"
 #include "ui_u_widget.h"
 #include <QDebug>
+#include <QFileDialog>
 
 u_widget::u_widget(QWidget *parent, Session *s) :
     QGroupBox(parent),
     ui(new Ui::u_widget)
 {
     ui->setupUi(this);
+    QFile f(":qdarkstyle/style.qss");
+    if (!f.exists())
+    {
+        printf("Unable to set stylesheet, file not found\n");
+    }
+    else
+    {
+        f.open(QFile::ReadOnly | QFile::Text);
+        QTextStream ts(&f);
+        this->setStyleSheet(ts.readAll());
+    }
+
     k_ses = s;
     ui->comboBox->addItems(k_ses->returnCols_one());
     keyModel = new QStandardItemModel(this);
