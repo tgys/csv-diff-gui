@@ -74,6 +74,7 @@
     </property>
     <addaction name="actionchange_column_options"/>
     <addaction name="actionselect_new_tables"/>
+    <addaction name="actionadd_primary_keys"/>
    </widget>
    <widget class="QMenu" name="menutools">
     <property name="title">
@@ -157,6 +158,14 @@
   <action name="actionexport_to_file">
    <property name="text">
     <string>export to file</string>
+   </property>
+  </action>
+  <action name="actionadd_primary_keys">
+   <property name="text">
+    <string>add primary keys</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+P</string>
    </property>
   </action>
  </widget>

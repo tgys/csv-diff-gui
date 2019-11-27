@@ -36,6 +36,7 @@ public:
     void onExportAction();
     void onColumnAction();
     void onTablesAction();
+    void onKeyAction();
     void onResultsAction();
     void onManualAction();
 

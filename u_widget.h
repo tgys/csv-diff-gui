@@ -16,7 +16,8 @@ class u_widget : public QDialog
 
 public:
     explicit u_widget(QWidget *parent = nullptr, Session *ses = nullptr);
-    void updateList();
+    void updateAddList();
+    void updateSesList();
     ~u_widget();
 
 private slots:
@@ -24,6 +25,7 @@ private slots:
     void onNewKeyUpdate();
     void onNewKeyRemove();
     void onNewOkPressed();
+    void onNewCancelKeysPressed();
 
 signals:
     void newOkKeys();
@@ -32,6 +34,7 @@ private:
     Ui::u_widget *ui;
     Session *k_ses;
     QStandardItemModel *keyModel;
+    QStandardItemModel *keyAddModel;
     QList<QString> keylist = QList<QString>();
     QString currentCol;
     int num_instances = 0;

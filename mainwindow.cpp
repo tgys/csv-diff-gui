@@ -34,6 +34,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->actionchange_column_options->setStatusTip(tr("Change column pairings"));
     QObject::connect(ui->actionselect_new_tables, &QAction::triggered, this, &MainWindow::onTablesAction);
     ui->actionselect_new_tables->setStatusTip(tr("Select a new table from a csv file"));
+    QObject::connect(ui->actionadd_primary_keys, &QAction::triggered, this, &MainWindow::onKeyAction);
+    ui->actionadd_primary_keys->setStatusTip(tr("Add primary keys"));
     QObject::connect(ui->actionview_results, &QAction::triggered, this, &MainWindow::onResultsAction);
     ui->actionview_results->setStatusTip(tr("View the results"));
     QObject::connect(ui->actionmanual, &QAction::triggered, this, &MainWindow::onManualAction);
@@ -96,6 +98,17 @@ void MainWindow::onColumnAction()
      {
          qDebug() << "not enough tables loaded";
          QMessageBox msgBox;
+         QFile f(":qdarkstyle/style.qss");
+         if (!f.exists())
+         {
+             printf("Unable to set stylesheet, file not found\n");
+         }
+         else
+         {
+             f.open(QFile::ReadOnly | QFile::Text);
+             QTextStream ts(&f);
+             msgBox.setStyleSheet(ts.readAll());
+         }
          msgBox.setText("There should be two tables loaded");
          msgBox.exec();
      }
@@ -107,6 +120,36 @@ void MainWindow::onTablesAction()
      selectcsv = new Dialog(this, ses);
      selectcsv->show();
 }
+
+void MainWindow::onKeyAction()
+{
+    if (ses->getTablesLoaded() == 2){
+        u_widget *ukeys;
+        ukeys = new u_widget(this,ses);
+        QObject::connect(ukeys, SIGNAL(newOkKeys()), this, SLOT(onNewOkKeys()));
+        ukeys->setModal(true);
+        ukeys->show();
+    }
+    else
+    {
+        qDebug() << "not enough tables loaded";
+        QMessageBox msgBox;
+        QFile f(":qdarkstyle/style.qss");
+        if (!f.exists())
+        {
+            printf("Unable to set stylesheet, file not found\n");
+        }
+        else
+        {
+            f.open(QFile::ReadOnly | QFile::Text);
+            QTextStream ts(&f);
+            msgBox.setStyleSheet(ts.readAll());
+        }
+        msgBox.setText("There should be two tables loaded");
+        msgBox.exec();
+    }
+}
+
 
 void MainWindow::onResultsAction()
 {

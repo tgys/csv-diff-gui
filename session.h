@@ -101,7 +101,7 @@ class Session
     void incTablesLoaded() {
         if (d->tablesloaded < 2) { d->tablesloaded++; }
     }
-    int getTablesLoaded() const {return d->tablesloaded; }
+    int getTablesLoaded() const { return d->tablesloaded; }
 
   private:
     QSharedDataPointer<sessionData> d;

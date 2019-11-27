@@ -25,7 +25,7 @@ public:
 private slots:
    void handleButtonOne();
    void handleButtonTwo();
-   void onUpdatePressed();
+   //void onUpdatePressed();
    void onNewOkD1Pressed();
    void onNewCancelD1Pressed();
 

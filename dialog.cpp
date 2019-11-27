@@ -30,7 +30,7 @@ Dialog::Dialog(QWidget *parent, Session *s) :
     // Connect button signal to appropriate slot
     QObject::connect(ui->pushButton, SIGNAL (released()), this, SLOT (handleButtonOne()));
     QObject::connect(ui->pushButton_2, SIGNAL (released()), this, SLOT (handleButtonTwo()));
-    QObject::connect(ui->pushButton_3, SIGNAL(released()), this, SLOT (onUpdatePressed()));
+    //QObject::connect(ui->pushButton_3, SIGNAL(released()), this, SLOT (onUpdatePressed()));
     QObject::connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT (onNewOkD1Pressed()));
     QObject::connect(ui->buttonBox, SIGNAL(rejected()), this, SLOT (onNewCancelD1Pressed()));
 
@@ -103,10 +103,10 @@ void Dialog::handleButtonTwo()
    }
 }
 
-void Dialog::onUpdatePressed()
+/*void Dialog::onUpdatePressed()
 {
     emit this->newUpdatePressed();
-}
+} */
 
 void Dialog::onNewOkD1Pressed()
 {

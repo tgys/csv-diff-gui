@@ -27,6 +27,15 @@ u_widget::u_widget(QWidget *parent, Session *s) :
     ui->comboBox->addItems(k_ses->returnCols_one());
     keyModel = new QStandardItemModel(this);
     ui->listView->setModel(keyModel);
+    keyAddModel = new QStandardItemModel(this);
+    ui->listView_2->setModel(keyAddModel);
+    keyModel->clear();
+    for (QString item : k_ses->returnUniqueKeys()) {
+        QList<QStandardItem *> rowItems;
+        rowItems.append(new QStandardItem(item));
+        keyModel->insertRow(keyModel->rowCount(), rowItems);
+    }
+
     num_instances++;
     this->setWindowFlags(Qt::FramelessWindowHint| Qt::Dialog);
     qDebug() << "setting window flags on u_widget";
@@ -35,15 +44,17 @@ u_widget::u_widget(QWidget *parent, Session *s) :
     QObject::connect(ui->comboBox, SIGNAL(activated(const QString &)),
                      this, SLOT(onNewBoxActivated(const QString &)));
     QObject::connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT (onNewOkPressed()));
+    QObject::connect(ui->buttonBox, SIGNAL(rejected()), this, SLOT (onNewCancelKeysPressed()));
     qDebug() << "connected signals on u_widget";
 }
 
-void u_widget::updateList()
+void u_widget::updateAddList()
 {
     for (QString item : keylist) {
         QList<QStandardItem *> rowItems;
         rowItems.append(new QStandardItem(item));
-        keyModel->insertRow(keyModel->rowCount(), rowItems);
+        keyAddModel->insertRow(keyAddModel->rowCount(), rowItems);
+       // keyModel->insertRow(keyModel->rowCount(), rowItems);
     }
 }
 
@@ -55,18 +66,22 @@ void u_widget::onNewBoxActivated(const QString &col)
 
 void u_widget::onNewKeyUpdate()
 {
-    keylist.append(currentCol);
-    qDebug() << "added to primary keys list " << currentCol;
-    keyModel->clear();
-    updateList();
+    if (currentCol != "")
+    {
+        keylist.append(currentCol);
+
+        qDebug() << "added to primary keys list " << currentCol;
+        keyAddModel->clear();
+        updateAddList();
+    }
 }
 
 void u_widget::onNewKeyRemove()
 {
     keylist.removeAll(currentCol);
     qDebug() << "removed from primary keys list " << currentCol;
-    keyModel->clear();
-    updateList();
+    keyAddModel->clear();
+    updateAddList();
 }
 
 void u_widget::onNewOkPressed()
@@ -74,12 +89,20 @@ void u_widget::onNewOkPressed()
      k_ses->clearUniqueKeys();
      for (QString item : keylist)
      {
-         k_ses->addUniqueKey(item);
+         if (!k_ses->inUniqueKeys(item)) { k_ses->addUniqueKey(item); }
          qDebug() << "setting uniquekeys from keylist";
-         emit this->newOkKeys();
-         accept();
      }
+     emit this->newOkKeys();
+     accept();
 }
+
+void u_widget::onNewCancelKeysPressed()
+{
+    qDebug() << "on cancel keys slot";
+    reject();
+}
+
+
 
 u_widget::~u_widget()
 {
