@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>674</width>
-    <height>478</height>
+    <width>1185</width>
+    <height>625</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -92,6 +92,13 @@
     <widget class="QLabel" name="label_7">
      <property name="text">
       <string>extra rows in table two</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QPushButton" name="pushButton">
+     <property name="text">
+      <string>start diff</string>
      </property>
     </widget>
    </item>

@@ -5,16 +5,39 @@
 #include <QFileDialog>
 #include <QFile>
 #include <QTextStream>
+#include <QProgressDialog>
+#include <QMessageBox>
 #include "dialog2.h"
 #include "u_widget.h"
 #include "results.h"
+#include "dialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    QString title = QString("CSV-Diff-GUI");
+    this->setWindowTitle(title);
     this->ses = new Session();
+    Dialog *selectcsv;
+    selectcsv = new Dialog(this, ses);
+    selectcsv->show();
+
+    QObject::connect(ui->actionsave_session, &QAction::triggered, this, &MainWindow::onSaveAction);
+    ui->actionsave_session->setStatusTip(tr("Save this session"));
+    QObject::connect(ui->actionsave_session_as, &QAction::triggered, this, &MainWindow::onSaveAsAction);
+    ui->actionsave_session_as->setStatusTip(tr("Save this session as"));
+    QObject::connect(ui->actionexport_to_file, &QAction::triggered, this, &MainWindow::onExportAction);
+    ui->actionexport_to_file->setStatusTip(tr("Export this session"));
+    QObject::connect(ui->actionchange_column_options, &QAction::triggered, this, &MainWindow::onColumnAction);
+    ui->actionchange_column_options->setStatusTip(tr("Change column pairings"));
+    QObject::connect(ui->actionselect_new_tables, &QAction::triggered, this, &MainWindow::onTablesAction);
+    ui->actionselect_new_tables->setStatusTip(tr("Select a new table from a csv file"));
+    QObject::connect(ui->actionview_results, &QAction::triggered, this, &MainWindow::onResultsAction);
+    ui->actionview_results->setStatusTip(tr("View the results"));
+    QObject::connect(ui->actionmanual, &QAction::triggered, this, &MainWindow::onManualAction);
+    ui->actionmanual->setStatusTip(tr("View the manual"));
 
     csvModelOne = new QStandardItemModel(this);
     ui->tableView->setModel(csvModelOne);
@@ -22,28 +45,80 @@ MainWindow::MainWindow(QWidget *parent)
     csvModelTwo = new QStandardItemModel(this);
     ui->tableView_2->setModel(csvModelTwo);
 
-    QFileInfo fi_one("/foo/bar");
+    QFileInfo fi_one("");
     QString fileName_one = fi_one.fileName();
     QString fpath_one = fi_one.path();
     ses->setFileOnePath(fpath_one);
 
-    QFileInfo fi_two("/bar/foo");
+    QFileInfo fi_two("");
     QString fileName_two = fi_two.fileName();
     QString fpath_two = fi_two.path();
     ses->setFileTwoPath(fpath_two);
 
     QString p1 = ses->getFileOnePath();
     QString p2 = ses->getFileTwoPath();
-
+//    QObject::connect(ui->menubar, SIGNAL(triggered(QAction *)), this, SLOT (onNewAction()));
     qDebug() << p1;
     qDebug() << p2;
 
 }
 
-void MainWindow::getDiffs()
+void MainWindow::onSaveAction()
 {
-
+     qDebug() << "save action";
 }
+
+void MainWindow::onSaveAsAction()
+{
+     qDebug() << "save as action";
+}
+
+void MainWindow::onExportAction()
+{
+     qDebug() << "export action";
+}
+
+void MainWindow::onColumnAction()
+{
+     qDebug() << ses->getTablesLoaded();
+     if (ses->getTablesLoaded() == 2)
+     {
+         updateEquivalents();
+         Dialog2 *dialog2;
+         dialog2 = new Dialog2(this,ses);
+         QObject::connect(dialog2, SIGNAL(newOkColumns()), this, SLOT(onNewOkColumns()));
+         dialog2->setModal(true);
+
+         qDebug() << "main window created dialog2";
+         dialog2->show();
+     }
+     else
+     {
+         qDebug() << "not enough tables loaded";
+         QMessageBox msgBox;
+         msgBox.setText("There should be two tables loaded");
+         msgBox.exec();
+     }
+}
+
+void MainWindow::onTablesAction()
+{
+     Dialog *selectcsv;
+     selectcsv = new Dialog(this, ses);
+     selectcsv->show();
+}
+
+void MainWindow::onResultsAction()
+{
+     qDebug() << "results action";
+}
+
+void MainWindow::onManualAction()
+{
+     qDebug() << "manual action";
+}
+
+
 
 void MainWindow::updateTableOne()
 {
@@ -190,6 +265,7 @@ void MainWindow::onNewOkColumns()
         u_widget *ukeys;
         ukeys = new u_widget(this,ses);
         QObject::connect(ukeys, SIGNAL(newOkKeys()), this, SLOT(onNewOkKeys()));
+        ukeys->setModal(true);
 
         qDebug() << "main window created ukeys";
         ukeys->show();
@@ -211,8 +287,15 @@ void MainWindow::onNewOkKeys()
     qDebug() << "main window created results";
     res->show();
 
+
+    QProgressDialog progress("Comparing Tables...", "Abort Diff", 0, numrows_one + numrows_two, this);
+    progress.setWindowModality(Qt::WindowModal);
+
     for (int i = 0; i < numrows_one; i++)     // for each row in the first table
     {
+        progress.setValue(i);
+        if (progress.wasCanceled()) { break; }
+
         qDebug() << "FIRST TABLE: looking at row in table one, inside first loop";
         int rowsSkipped = 0;
         for (int j = 0; j < numrows_two; j++)    //for each row, check each row in 2nd table
@@ -329,6 +412,7 @@ void MainWindow::onNewOkKeys()
 
         }
      }
+    progress.setValue(numrows_one);
 
     QList<QString> uniqueKeysTwo = QList<QString>();
     QHash<QString, QString> reverseEquivalent = QHash<QString, QString>();
@@ -343,6 +427,9 @@ void MainWindow::onNewOkKeys()
 
     for (int i = 0; i < numrows_two; i++)          //for each row in the second table
     {
+         progress.setValue(numrows_one + i);
+         if (progress.wasCanceled()) { break; }
+
          qDebug() << "SECOND TABLE: inside first loop, checking row of second table";
          int rowsSkipped = 0;
          for (int j = 0; j < numrows_one; j++)
@@ -385,6 +472,8 @@ void MainWindow::onNewOkKeys()
         }
 
     }
+    progress.setValue(numrows_one + numrows_two);
+
 }
 
 

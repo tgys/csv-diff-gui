@@ -2,6 +2,7 @@
 #define U_WIDGET_H
 
 #include <QGroupBox>
+#include <QDialog>
 #include <QStandardItemModel>
 #include "session.h"
 
@@ -9,7 +10,7 @@ namespace Ui {
 class u_widget;
 }
 
-class u_widget : public QGroupBox
+class u_widget : public QDialog
 {
     Q_OBJECT
 

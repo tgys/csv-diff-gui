@@ -15,37 +15,37 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="2" column="1">
-     <widget class="QTableView" name="tableView_2"/>
+    <item row="1" column="0">
+     <widget class="QTableView" name="tableView"/>
     </item>
     <item row="1" column="1">
+     <widget class="QTableView" name="tableView_2"/>
+    </item>
+    <item row="0" column="1">
      <widget class="QLabel" name="label_2">
       <property name="text">
        <string>select a csv file for table two</string>
       </property>
      </widget>
     </item>
-    <item row="3" column="0">
+    <item row="2" column="0">
      <widget class="QLabel" name="label_3">
       <property name="text">
        <string>number of rows in table one changed</string>
       </property>
      </widget>
     </item>
-    <item row="2" column="0">
-     <widget class="QTableView" name="tableView"/>
-    </item>
-    <item row="1" column="0">
-     <widget class="QLabel" name="label">
-      <property name="text">
-       <string>select a csv file for table one</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="1">
+    <item row="2" column="1">
      <widget class="QLabel" name="label_4">
       <property name="text">
        <string>number of rows in table two changed:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>select a csv file for table one</string>
       </property>
      </widget>
     </item>
@@ -66,25 +66,26 @@
     </property>
     <addaction name="actionsave_session"/>
     <addaction name="actionsave_session_as"/>
+    <addaction name="actionexport_to_file"/>
    </widget>
    <widget class="QMenu" name="menuedit">
     <property name="title">
      <string>edit</string>
     </property>
-    <addaction name="actionchoose_new_files"/>
     <addaction name="actionchange_column_options"/>
+    <addaction name="actionselect_new_tables"/>
    </widget>
    <widget class="QMenu" name="menutools">
     <property name="title">
      <string>tools</string>
     </property>
-    <addaction name="actionview_modified_rows"/>
+    <addaction name="actionview_results"/>
    </widget>
    <widget class="QMenu" name="menuhelp">
     <property name="title">
      <string>help</string>
     </property>
-    <addaction name="actionmanual_Ctrl_H"/>
+    <addaction name="actionmanual"/>
    </widget>
    <addaction name="menufile"/>
    <addaction name="menuedit"/>
@@ -94,7 +95,7 @@
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionview_modified_rows">
    <property name="text">
-    <string>modified rows   &lt;Ctrl+R&gt;</string>
+    <string>modified rows</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+R</string>
@@ -110,7 +111,7 @@
   </action>
   <action name="actionchange_column_options">
    <property name="text">
-    <string>column options     &lt;Ctrl+Shift+C&gt;</string>
+    <string>column options</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+C</string>
@@ -118,7 +119,7 @@
   </action>
   <action name="actionsave_session">
    <property name="text">
-    <string>save session        &lt;Ctrl+S&gt;</string>
+    <string>save session</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
@@ -126,18 +127,36 @@
   </action>
   <action name="actionsave_session_as">
    <property name="text">
-    <string>save session as   &lt;Ctrl+Shift+S&gt;</string>
+    <string>save session as</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+S</string>
    </property>
   </action>
-  <action name="actionmanual_Ctrl_H">
+  <action name="actionselect_new_tables">
    <property name="text">
-    <string>manual  &lt;Ctrl+H&gt;</string>
+    <string>select new tables</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+T</string>
+   </property>
+  </action>
+  <action name="actionmanual">
+   <property name="text">
+    <string>manual</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+H</string>
+   </property>
+  </action>
+  <action name="actionview_results">
+   <property name="text">
+    <string>view results</string>
+   </property>
+  </action>
+  <action name="actionexport_to_file">
+   <property name="text">
+    <string>export to file</string>
    </property>
   </action>
  </widget>

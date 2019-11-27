@@ -31,7 +31,14 @@ public:
     void updateTableOne();
     void updateTableTwo();
     void updateEquivalents();
-    void getDiffs();
+    void onSaveAction();
+    void onSaveAsAction();
+    void onExportAction();
+    void onColumnAction();
+    void onTablesAction();
+    void onResultsAction();
+    void onManualAction();
+
     ~MainWindow();
 
 private:

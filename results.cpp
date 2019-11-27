@@ -9,6 +9,9 @@ Results::Results(QWidget *parent, Session *s) :
     ui(new Ui::Results)
 {
     ui->setupUi(this);
+    QString title = QString("View Results");
+    this->setWindowTitle(title);
+
     QFile f(":qdarkstyle/style.qss");
     if (!f.exists())
     {

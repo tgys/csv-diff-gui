@@ -8,6 +8,9 @@ Dialog2::Dialog2(QWidget *parent, Session *s) :
     ui(new Ui::Dialog2)
 {
     ui->setupUi(this);
+    QString title = QString("Select Column Options");
+    this->setWindowTitle(title);
+
     QFile f(":qdarkstyle/style.qss");
     if (!f.exists())
     {
@@ -29,6 +32,12 @@ Dialog2::Dialog2(QWidget *parent, Session *s) :
     ui->tableView_2->setModel(modModel);
     modified = d_ses->returnModified();
 
+    qDebug() << "currentIndex = " << ui->comboBox->currentIndex();
+    qDebug() << "currentIndex = " << ui->comboBox_2->currentIndex();
+
+    currentColOne = ui->comboBox->itemText(ui->comboBox->currentIndex());
+    currentColTwo = ui->comboBox_2->itemText(ui->comboBox_2->currentIndex());
+
     QObject::connect(ui->comboBox, SIGNAL(activated(const QString &)),
                      this, SLOT(onBoxOneActivated(const QString &)));
     QObject::connect(ui->comboBox_2, SIGNAL(activated(const QString &)),
@@ -41,7 +50,7 @@ Dialog2::Dialog2(QWidget *parent, Session *s) :
 
 void Dialog2::updateTable()
 {
-    for (QString item : d_ses->returnCols_one()) {
+    for (QString item : d_ses->returnColOne_to_name()) {
         QList<QStandardItem *> rowItems;
         rowItems.append(new QStandardItem(item));
         int itemCol = d_ses->getColNum_one(item);
