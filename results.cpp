@@ -32,7 +32,7 @@ Results::Results(QWidget *parent, Session *s) :
     extrasModel_two = new QStandardItemModel(this);
     ui->tableView_3->setModel(extrasModel_two);
 
-    for (QString col : r_ses->returnCols_one())
+    for (QString col : r_ses->returnColOne_to_name())
     {
         int colnum_one = r_ses->getColNum_one(col);
         diffModel->setHeaderData(colnum_one, Qt::Horizontal, col );
@@ -42,7 +42,7 @@ Results::Results(QWidget *parent, Session *s) :
     extrasModel_one->setHeaderData(0, Qt::Horizontal, tr("ROW"));
     diffModel->setHeaderData(0, Qt::Horizontal, tr("ROW"));
 
-    for (QString col : r_ses->returnCols_two())
+    for (QString col : r_ses->returnColTwo_to_name())
     {
         int colnum_two = r_ses->getColNum_two(col);
         extrasModel_two->setHeaderData(colnum_two, Qt::Horizontal, col );

@@ -2,10 +2,6 @@
 #include <QDebug>
 #include <QApplication>
 #include <QFileDialog>
-#include <dialog.h>
-#include <dialog2.h>
-#include <session.h>
-
 
 int main(int argc, char *argv[])
 {

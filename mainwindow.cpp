@@ -192,11 +192,12 @@ void MainWindow::updateTableOne()
                 rowItems.append(new QStandardItem(item));
             }
             csvModelOne->insertRow(csvModelOne->rowCount(), rowItems);
+        }
 
-            /*qDebug() << "rowCount() is " << csvModelOne->rowCount();
-            qDebug() << "numrows_one is " << numrows_one;
-            QStandardItem *itemT = csvModelOne->item(csvModelOne->rowCount()-1);
-            qDebug() << "UPDATE TABLE ONE: item at column one, in this row, is: " << itemT->text(); */
+        for (QString s : ses->returnColOne_to_name())
+        {
+            int scol = ses->getColNum_one(s);
+            csvModelOne->setHeaderData(scol, Qt::Horizontal, s);
         }
         if (ses->getTablesLoaded() == 2)
         {
@@ -236,6 +237,13 @@ void MainWindow::updateTableTwo()
             }
             csvModelTwo->insertRow(csvModelTwo->rowCount(), rowItems);
         }
+
+        for (QString s : ses->returnColTwo_to_name())
+        {
+            int scol = ses->getColNum_two(s);
+            csvModelTwo->setHeaderData(scol, Qt::Horizontal, s);
+        }
+
         if (ses->getTablesLoaded() == 2)
         {
             ses->clearEquivalent();
@@ -252,8 +260,6 @@ void MainWindow::onNewTextOneEntered(const QString &text)
     ses->setFileOnePath(text);
     qDebug() << ses->getFileOnePath();
     updateTableOne();
-  //  Dialog2 dialog2;
-  // dialog2.show();
 }
 
 void MainWindow::onNewTextTwoEntered(const QString &text)
@@ -329,7 +335,6 @@ void MainWindow::onNewOkKeys()
                      SLOT(onNewUpdateResultsExtras(int, QList<QStandardItem *>)));
     qDebug() << "main window created results";
     res->show();
-
 
     QProgressDialog progress("Comparing Tables...", "Abort Diff", 0, numrows_one + numrows_two, this);
     progress.setWindowModality(Qt::WindowModal);
@@ -515,6 +520,7 @@ void MainWindow::onNewOkKeys()
         }
 
     }
+
     progress.setValue(numrows_one + numrows_two);
 
 }
