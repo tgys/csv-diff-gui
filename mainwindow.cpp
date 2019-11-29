@@ -323,7 +323,7 @@ void MainWindow::onNewOkColumns()
 
 void MainWindow::onNewOkKeys()
 {
-    qDebug() << "on new ok keys";
+  //  qDebug() << "on new ok keys";
     Results *res;
     res = new Results(this,ses);
 
@@ -333,7 +333,7 @@ void MainWindow::onNewOkKeys()
                        QStandardItem &, QString &, QString &)));
     QObject::connect(this, SIGNAL(newUpdateResultsExtras(int, QList<QStandardItem *>)), res,
                      SLOT(onNewUpdateResultsExtras(int, QList<QStandardItem *>)));
-    qDebug() << "main window created results";
+   // qDebug() << "main window created results";
     res->show();
 
     QProgressDialog progress("Comparing Tables...", "Abort Diff", 0, numrows_one + numrows_two, this);
@@ -344,15 +344,15 @@ void MainWindow::onNewOkKeys()
         progress.setValue(i);
         if (progress.wasCanceled()) { break; }
 
-        qDebug() << "FIRST TABLE: looking at row in table one, inside first loop";
+    //    qDebug() << "FIRST TABLE: looking at row in table one, inside first loop";
         int rowsSkipped = 0;
         for (int j = 0; j < numrows_two; j++)    //for each row, check each row in 2nd table
         {
-            qDebug() << "FIRST TABLE: looking at row in table two, inside second loop";
+     //       qDebug() << "FIRST TABLE: looking at row in table two, inside second loop";
             int skipRow = 0;
             for (QString uniqueCol : ses->returnUniqueKeys())  //check entries in uniquekey columns
             {
-                qDebug() << "FIRST TABLE: inside uniquekeys loop, checking unique keys";
+      //          qDebug() << "FIRST TABLE: inside uniquekeys loop, checking unique keys";
                 QString uniqueCol_two = ses->getEquivalent(uniqueCol);  //find matching column in 2nd table
                 int ucol_num_one = ses->getColNum_one(uniqueCol);
                 int ucol_num_two = ses->getColNum_two(uniqueCol_two);
@@ -363,7 +363,7 @@ void MainWindow::onNewOkKeys()
 
                 if (utextOne != utextTwo)    //if the entries do not match
                 {
-                    qDebug() << "FIRST TABLE: found non matching uniquekeys";
+       //             qDebug() << "FIRST TABLE: found non matching uniquekeys";
                     skipRow = 1;
                     rowsSkipped++;    //keep count of skipped rows in 2nd table
                     break;            //skip checking other uniquecolumns
@@ -371,14 +371,14 @@ void MainWindow::onNewOkKeys()
              }
 
             if (skipRow) { continue; }     //skip row if not all uniquecolumns match
-            qDebug() << "FIRST TABLE: not skipping row, checking other columns";
+        //    qDebug() << "FIRST TABLE: not skipping row, checking other columns";
 
 
             for (QString colName_one : ses->returnCols_one())      //if all uniquecolumns match
             {
                 if (!ses->inUniqueKeys(colName_one))            //check the remaining columns
                 {
-                    qDebug() << "FIRST TABLE: checking remaining columns";
+         //           qDebug() << "FIRST TABLE: checking remaining columns";
                     QString colName_two = ses->getEquivalent(colName_one);
                     int col_num_one = ses->getColNum_one(colName_one);
                     int col_num_two = ses->getColNum_two(colName_two);
@@ -389,33 +389,33 @@ void MainWindow::onNewOkKeys()
 
                     if (textOne != textTwo)                   //if there is a non-matching entry in any of the remaining columns
                     {
-                        qDebug() << "FIRST TABLE: found non matching entry in remaining columns";
+          //              qDebug() << "FIRST TABLE: found non matching entry in remaining columns";
                         QList<QStandardItem *> changedItems_one;
                         for (QString q : ses->returnColOne_to_name())
                         {
                             int qcol = ses->getColNum_one(q);
                             QStandardItem *itm = csvModelOne->item(i, qcol);
 
-                            qDebug() << "qcol number is " << qcol;
+           //                 qDebug() << "qcol number is " << qcol;
 
                             QString teststring = QString("Milestone Date");
                             int milestone_col = ses->getColNum_one(teststring);
 
-                            qDebug() << "column number of milestone date: " << milestone_col;
+            //                qDebug() << "column number of milestone date: " << milestone_col;
 
                             QStandardItem *itm_mile = csvModelOne->item(i);
-                            qDebug() << "item in milestone date: " << itm_mile->text();
+             //               qDebug() << "item in milestone date: " << itm_mile->text();
 
                             //qDebug() << "item before: " << itm_prev->text() << "  item after: " << itm_next->text();
                             QString txt = itm->text();
                             changedItems_one.append(new QStandardItem(txt));   //add item in the first row
-                            qDebug() << "FIRST TABLE: added item to ROW of changedItems_ONE";
-                            qDebug() << "FIRST TABLE: item added was " << txt << "IN COLUMN" << ses->getColOnetoName(qcol) << "NUMBER" << qcol;
+              //              qDebug() << "FIRST TABLE: added item to ROW of changedItems_ONE";
+               //             qDebug() << "FIRST TABLE: item added was " << txt << "IN COLUMN" << ses->getColOnetoName(qcol) << "NUMBER" << qcol;
                         }
-                        qDebug() << "FIRST TABLE: before appending row number to CHANGEDITEMS_ONE";
+                //        qDebug() << "FIRST TABLE: before appending row number to CHANGEDITEMS_ONE";
                         changedItems_one.append(new QStandardItem(QString::number(i)));
 
-                        qDebug() << "FIRST TABLE: after appending row number to CHANGEDITEMS_ONE";
+                 //       qDebug() << "FIRST TABLE: after appending row number to CHANGEDITEMS_ONE";
 
                         QList<QStandardItem *> changedItems_two;
                         for (QString q : ses->returnColTwo_to_name())
@@ -424,16 +424,16 @@ void MainWindow::onNewOkKeys()
                             QStandardItem *itm = csvModelOne->item(i, qcol);
                             QString txt = itm->text();
                             changedItems_two.append(new QStandardItem(txt));   //add item in the first row
-                            qDebug() << "FIRST TABLE: added item to ROW of changedItems_TWO";
-                            qDebug() << "FIRST TABLE: item added was " << txt << "IN COLUMN" << ses->getColTwotoName(qcol) << "NUMBER" << qcol;
+                  //          qDebug() << "FIRST TABLE: added item to ROW of changedItems_TWO";
+                   //         qDebug() << "FIRST TABLE: item added was " << txt << "IN COLUMN" << ses->getColTwotoName(qcol) << "NUMBER" << qcol;
                         }
-                        qDebug() << "FIRST TABLE: before appending row number to CHANGEDITEMS_TWO";
+                    //    qDebug() << "FIRST TABLE: before appending row number to CHANGEDITEMS_TWO";
                         changedItems_two.append(new QStandardItem(QString::number(i)));
 
-                        qDebug() << "FIRST TABLE: BEFORE emitting CHANGED signal";
+                     //   qDebug() << "FIRST TABLE: BEFORE emitting CHANGED signal";
                         emit this->newUpdateResultsChanged(changedItems_one, changedItems_two, i, j, col_num_one, col_num_two,
                                                                            *itemOne, *itemTwo, textOne, textTwo);
-                        qDebug() << "FIRST TABLE: emitted CHANGED signal";
+                      //  qDebug() << "FIRST TABLE: emitted CHANGED signal";
 
                     }   //add entry to list of changed tables
                 }
@@ -441,9 +441,9 @@ void MainWindow::onNewOkKeys()
             }
         }
 
-        qDebug() << "FIRST TABLE: before checking if row is not in table two";
+      //  qDebug() << "FIRST TABLE: before checking if row is not in table two";
         if (rowsSkipped == numrows_two){                //if all rows in the second table were skipped
-            qDebug() << "FIRST TABLE: all rows in table two were skipped ROW IN TABLE ONE IS AN EXTRA ROW";
+       //     qDebug() << "FIRST TABLE: all rows in table two were skipped ROW IN TABLE ONE IS AN EXTRA ROW";
             QList<QStandardItem *> skippedRowItems;     //the row in the first table (i) is an extra row
             skippedRowItems.append(new QStandardItem(QString::number(i)));
             for (QString q : ses->returnColOne_to_name())
@@ -452,11 +452,11 @@ void MainWindow::onNewOkKeys()
                 QStandardItem *itm = csvModelOne->item(i, qcol);
                 QString txt = itm->text();
                 skippedRowItems.append(new QStandardItem(txt));   //add item in the first row
-                qDebug() << "FIRST TABLE: added item to ROW of EXTRA items ONE";
-                qDebug() << "FIRST TABLE: item added was " << txt << "IN COLUMN" << qcol;
+        //        qDebug() << "FIRST TABLE: added item to ROW of EXTRA items ONE";
+         //       qDebug() << "FIRST TABLE: item added was " << txt << "IN COLUMN" << qcol;
             }
             emit this->newUpdateResultsExtras(1, skippedRowItems);     //add row to extras model
-            qDebug() << "FIRST TABLE: emitted EXTRAS_ONE signal";
+          //  qDebug() << "FIRST TABLE: emitted EXTRAS_ONE signal";
 
         }
      }
@@ -464,28 +464,28 @@ void MainWindow::onNewOkKeys()
 
     QList<QString> uniqueKeysTwo = QList<QString>();
     QHash<QString, QString> reverseEquivalent = QHash<QString, QString>();
-    qDebug() << "initialized uniqueKeysTwo and reverseEquivalent hash maps";
+    //qDebug() << "initialized uniqueKeysTwo and reverseEquivalent hash maps";
     for (QString fir : ses->returnUniqueKeys())   //get uniquekey columns in 2nd table
     {                                             //and reverse equivalents list
         QString sec = ses->getEquivalent(fir);
         uniqueKeysTwo.append(sec);
         reverseEquivalent[sec] = fir;
     }
-    qDebug() << "updated reverseEquivalent hash map";
+    //qDebug() << "updated reverseEquivalent hash map";
 
     for (int i = 0; i < numrows_two; i++)          //for each row in the second table
     {
          progress.setValue(numrows_one + i);
          if (progress.wasCanceled()) { break; }
 
-         qDebug() << "SECOND TABLE: inside first loop, checking row of second table";
+     //    qDebug() << "SECOND TABLE: inside first loop, checking row of second table";
          int rowsSkipped = 0;
          for (int j = 0; j < numrows_one; j++)
          {
-             qDebug() << "SECOND TABLE: inside second loop, checking row of first table";
+      //       qDebug() << "SECOND TABLE: inside second loop, checking row of first table";
              for (QString uniqueCol : uniqueKeysTwo)  //check entries in uniquekey columns
              {
-                 qDebug() << "SECOND TABLE: inside uniquekeys loop, checking unique keys";
+       //          qDebug() << "SECOND TABLE: inside uniquekeys loop, checking unique keys";
                  QString uniqueCol_two = reverseEquivalent[uniqueCol];  //find matching column in 1st table
                  int ucol_num_one = ses->getColNum_one(uniqueCol);
                  int ucol_num_two = ses->getColNum_two(uniqueCol_two);
@@ -496,7 +496,7 @@ void MainWindow::onNewOkKeys()
 
                  if (utextOne != utextTwo)    //if the entries do not match
                  {
-                     qDebug() << "SECOND TABLE: found non matching uniquekeys";
+        //             qDebug() << "SECOND TABLE: found non matching uniquekeys";
                      rowsSkipped++;    //keep count of skipped rows in 1st table
                      break;            //skip checking other uniquecolumns
                  }
@@ -505,7 +505,7 @@ void MainWindow::onNewOkKeys()
          }
 
          if (rowsSkipped == numrows_one){                //if all rows in the first table were skipped
-            qDebug() << "SECOND TABLE: skipped all rows in table one, this row is an EXTRA ROW IN TABLE TWO";
+         //   qDebug() << "SECOND TABLE: skipped all rows in table one, this row is an EXTRA ROW IN TABLE TWO";
             QList<QStandardItem *> skippedRowTwoItems;     //the row in the second table (i) is an extra row
             skippedRowTwoItems.append(new QStandardItem(QString::number(i)));
             for (QString q : ses->returnColTwo_to_name())
@@ -516,7 +516,7 @@ void MainWindow::onNewOkKeys()
                 skippedRowTwoItems.append(new QStandardItem(txt));   //add item in the first row
             }
             emit this->newUpdateResultsExtras(2, skippedRowTwoItems);     //add row to extras model
-            qDebug() << "FIRST TABLE: emitted EXTRAS_ONE signal";
+          //  qDebug() << "FIRST TABLE: emitted EXTRAS_ONE signal";
         }
 
     }
@@ -532,4 +532,6 @@ MainWindow::~MainWindow()
     delete ses;
     delete csvModelOne;
     delete csvModelTwo;
+
+}
 
