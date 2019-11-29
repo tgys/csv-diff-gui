@@ -131,4 +131,7 @@ void Dialog2::onNewOkPressed()
 Dialog2::~Dialog2()
 {
     delete ui;
+    delete d_ses;
+    delete eqvModel;
+    delete modModel;
 }

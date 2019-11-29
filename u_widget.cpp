@@ -107,4 +107,7 @@ void u_widget::onNewCancelKeysPressed()
 u_widget::~u_widget()
 {
     delete ui;
+    delete k_ses;
+    delete keyAddModel;
+    delete keyModel;
 }

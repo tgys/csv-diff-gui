@@ -529,5 +529,7 @@ void MainWindow::onNewOkKeys()
 MainWindow::~MainWindow()
 {
     delete ui;
-}
+    delete ses;
+    delete csvModelOne;
+    delete csvModelTwo;
 

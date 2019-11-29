@@ -80,4 +80,8 @@ void Results::onNewUpdateResultsChanged(QList<QStandardItem *> itemsOne, QList<Q
 Results::~Results()
 {
     delete ui;
+    delete r_ses;
+    delete diffModel;
+    delete extrasModel_one;
+    delete extrasModel_two;
 }

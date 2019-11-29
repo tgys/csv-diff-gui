@@ -21,6 +21,7 @@ public:
     QHash<QString, QString> equivalents;
     QHash<QString, QString> modified;
     QList<QString> uniquekeys;
+    QList<QString> excludekeys;
 };
 
 class Session
@@ -97,6 +98,12 @@ class Session
     void clearUniqueKeys() {d->uniquekeys.clear(); }
     QList<QString> returnUniqueKeys() { return d->uniquekeys; }
     void removeUniqueKey(QString &key) { d->uniquekeys.removeAll(key); }
+
+    bool inExcludeKeys(QString &col) { return d->excludekeys.contains(col); }
+    void addExcludeKey(QString &key) { d->excludekeys.append(key); }
+    void clearExcludeKeys() {d->excludekeys.clear(); }
+    QList<QString> returnExcludeKeys() { return d->excludekeys; }
+    void removeExcludeKey(QString &key) { d->excludekeys.removeAll(key); }
 
     void incTablesLoaded() {
         if (d->tablesloaded < 2) { d->tablesloaded++; }

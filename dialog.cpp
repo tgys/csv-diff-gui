@@ -123,4 +123,5 @@ void Dialog::onNewCancelD1Pressed()
 Dialog::~Dialog()
 {
     delete ui;
+    delete s_ses;
 }
