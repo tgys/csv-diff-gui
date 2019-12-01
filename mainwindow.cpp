@@ -372,14 +372,14 @@ void MainWindow::onNewOkKeys()
              }
 
             if (skipRow) { continue; }     //skip row if not all uniquecolumns match
-        //    qDebug() << "FIRST TABLE: not skipping row, checking other columns";
+            qDebug() << "FIRST TABLE: not skipping row, checking other columns";
 
 
             for (QString colName_one : ses->returnCols_one())      //if all uniquecolumns match
             {
                 if ( (!ses->inUniqueKeys(colName_one)) && (!ses->inExcludeKeys(colName_one)) )            //check the remaining columns
                 {
-         //           qDebug() << "FIRST TABLE: checking remaining columns";
+                    qDebug() << "FIRST TABLE: checking remaining columns";
                     QString colName_two = ses->getEquivalent(colName_one);
                     int col_num_one = ses->getColNum_one(colName_one);
                     int col_num_two = ses->getColNum_two(colName_two);
@@ -390,7 +390,7 @@ void MainWindow::onNewOkKeys()
 
                     if (textOne != textTwo)                   //if there is a non-matching entry in any of the remaining columns
                     {
-          //              qDebug() << "FIRST TABLE: found non matching entry in remaining columns";
+                        qDebug() << "FIRST TABLE: found non matching entry in remaining columns";
                         QList<QStandardItem *> changedItems_one;
                         for (QString q : ses->returnColOne_to_name())
                         {
@@ -405,6 +405,12 @@ void MainWindow::onNewOkKeys()
                         qDebug() << "CHANGE in row " << i << "  text: " << changedItems_one;
                         changedItems_one.append(new QStandardItem(QString::number(i)));
 
+                        for (QStandardItem * it : changedItems_one)
+                        {
+                            QString tx = it->text();
+                            qDebug() << "item in changedItems_one is: " << tx;
+                        }
+                        qDebug() << "end of changedItems_one";
                  //       qDebug() << "FIRST TABLE: after appending row number to CHANGEDITEMS_ONE";
 
                         QList<QStandardItem *> changedItems_two;
@@ -433,7 +439,7 @@ void MainWindow::onNewOkKeys()
 
       //  qDebug() << "FIRST TABLE: before checking if row is not in table two";
         if (rowsSkipped == numrows_two){                //if all rows in the second table were skipped
-       //     qDebug() << "FIRST TABLE: all rows in table two were skipped ROW IN TABLE ONE IS AN EXTRA ROW";
+            qDebug() << "FIRST TABLE: all rows in table two were skipped ROW IN TABLE ONE IS AN EXTRA ROW";
             QList<QStandardItem *> skippedRowItems;     //the row in the first table (i) is an extra row
             skippedRowItems.append(new QStandardItem(QString::number(i)));
             for (QString q : ses->returnColOne_to_name())

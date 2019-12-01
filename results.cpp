@@ -72,8 +72,17 @@ void Results::onNewUpdateResultsChanged(QList<QStandardItem *> itemsOne, QList<Q
                     int row_one, int row_two, int col_one, int col_two, QStandardItem &item_one,
                 QStandardItem &item_two, QString &text1, QString &text2)
 {
-        diffModel->insertRow(diffModel->rowCount(), itemsOne);
-        diffModel->insertRow(diffModel->rowCount(), itemsTwo);
+        if (!checked_one.contains(row_one))
+        {
+             diffModel->insertRow(diffModel->rowCount(), itemsOne);
+             checked_one.insert(row_one);
+        }
+        if (!checked_two.contains(row_two))
+        {
+             diffModel->insertRow(diffModel->rowCount(), itemsTwo);
+             checked_two.insert(row_two);
+        }
+        qDebug() << "finished inserting into results changed table";
 }
 
 

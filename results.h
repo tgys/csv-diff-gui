@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QStandardItemModel>
+#include <QSet>
 #include "session.h"
 
 namespace Ui {
@@ -29,6 +30,8 @@ private:
     QStandardItemModel *diffModel;
     QStandardItemModel *extrasModel_one;
     QStandardItemModel *extrasModel_two;
+    QSet<int> checked_one;
+    QSet<int> checked_two;
 };
 
 #endif // RESULTS_H
