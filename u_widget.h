@@ -17,6 +17,7 @@ class u_widget : public QDialog
 public:
     explicit u_widget(QWidget *parent = nullptr, Session *ses = nullptr);
     void updateAddList();
+    void updateExAddList();
     void updateSesList();
     ~u_widget();
 
@@ -24,6 +25,9 @@ private slots:
     void onNewBoxActivated(const QString &text);
     void onNewKeyUpdate();
     void onNewKeyRemove();
+    void onNewExUpdate();
+    void onNewExRemove();
+    void onNewBoxTwoActivated(const QString &text);
     void onNewOkPressed();
     void onNewCancelKeysPressed();
 
@@ -35,8 +39,12 @@ private:
     Session *k_ses;
     QStandardItemModel *keyModel;
     QStandardItemModel *keyAddModel;
+    QStandardItemModel *exModel;
+    QStandardItemModel *exAddModel;
     QList<QString> keylist = QList<QString>();
+    QList<QString> exlist = QList<QString>();
     QString currentCol;
+    QString currExCol;
     int num_instances = 0;
 };
 

@@ -35,8 +35,8 @@ Results::Results(QWidget *parent, Session *s) :
     for (QString col : r_ses->returnColOne_to_name())
     {
         int colnum_one = r_ses->getColNum_one(col);
-        diffModel->setHeaderData(colnum_one, Qt::Horizontal, col );
-        extrasModel_one->setHeaderData(colnum_one, Qt::Horizontal, col );
+        diffModel->setHeaderData(colnum_one+1, Qt::Horizontal, col );
+        extrasModel_one->setHeaderData(colnum_one+1, Qt::Horizontal, col );
     }
 
     extrasModel_one->setHeaderData(0, Qt::Horizontal, tr("ROW"));
@@ -45,7 +45,7 @@ Results::Results(QWidget *parent, Session *s) :
     for (QString col : r_ses->returnColTwo_to_name())
     {
         int colnum_two = r_ses->getColNum_two(col);
-        extrasModel_two->setHeaderData(colnum_two, Qt::Horizontal, col );
+        extrasModel_two->setHeaderData(colnum_two+1, Qt::Horizontal, col );
     }
 
     extrasModel_two->setHeaderData(0, Qt::Horizontal, tr("ROW"));

@@ -360,6 +360,7 @@ void MainWindow::onNewOkKeys()
                 QStandardItem *uitemTwo = csvModelTwo->item(j, ucol_num_two);
                 QString utextOne = uitemOne->text();             // get text from matched entries
                 QString utextTwo = uitemTwo->text();
+                //if (i==0) { qDebug() << utextOne << "   :   " << utextTwo; }
 
                 if (utextOne != utextTwo)    //if the entries do not match
                 {
@@ -376,7 +377,7 @@ void MainWindow::onNewOkKeys()
 
             for (QString colName_one : ses->returnCols_one())      //if all uniquecolumns match
             {
-                if (!ses->inUniqueKeys(colName_one))            //check the remaining columns
+                if ( (!ses->inUniqueKeys(colName_one)) && (!ses->inExcludeKeys(colName_one)) )            //check the remaining columns
                 {
          //           qDebug() << "FIRST TABLE: checking remaining columns";
                     QString colName_two = ses->getEquivalent(colName_one);
@@ -395,24 +396,13 @@ void MainWindow::onNewOkKeys()
                         {
                             int qcol = ses->getColNum_one(q);
                             QStandardItem *itm = csvModelOne->item(i, qcol);
-
-           //                 qDebug() << "qcol number is " << qcol;
-
-                            QString teststring = QString("Milestone Date");
-                            int milestone_col = ses->getColNum_one(teststring);
-
-            //                qDebug() << "column number of milestone date: " << milestone_col;
-
-                            QStandardItem *itm_mile = csvModelOne->item(i);
-             //               qDebug() << "item in milestone date: " << itm_mile->text();
-
-                            //qDebug() << "item before: " << itm_prev->text() << "  item after: " << itm_next->text();
                             QString txt = itm->text();
                             changedItems_one.append(new QStandardItem(txt));   //add item in the first row
               //              qDebug() << "FIRST TABLE: added item to ROW of changedItems_ONE";
                //             qDebug() << "FIRST TABLE: item added was " << txt << "IN COLUMN" << ses->getColOnetoName(qcol) << "NUMBER" << qcol;
                         }
                 //        qDebug() << "FIRST TABLE: before appending row number to CHANGEDITEMS_ONE";
+                        qDebug() << "CHANGE in row " << i << "  text: " << changedItems_one;
                         changedItems_one.append(new QStandardItem(QString::number(i)));
 
                  //       qDebug() << "FIRST TABLE: after appending row number to CHANGEDITEMS_ONE";
