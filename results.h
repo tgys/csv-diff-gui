@@ -27,7 +27,8 @@ public slots:
 private:
     Ui::Results *ui;
     Session *r_ses;
-    QStandardItemModel *diffModel;
+    QStandardItemModel *diffOneModel;
+    QStandardItemModel *diffTwoModel;
     QStandardItemModel *extrasModel_one;
     QStandardItemModel *extrasModel_two;
     QSet<int> checked_one;

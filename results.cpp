@@ -25,26 +25,32 @@ Results::Results(QWidget *parent, Session *s) :
     }
 
     r_ses = s;
-    diffModel = new QStandardItemModel(this);
-    ui->tableView->setModel(diffModel);
+    diffOneModel = new QStandardItemModel(this);
+    ui->tableView->setModel(diffOneModel);
+    diffTwoModel = new QStandardItemModel(this);
+    ui->tableView_4->setModel(diffTwoModel);
     extrasModel_one = new QStandardItemModel(this);
     ui->tableView_2->setModel(extrasModel_one);
     extrasModel_two = new QStandardItemModel(this);
     ui->tableView_3->setModel(extrasModel_two);
 
+    ui->tabWidget->setTabText(0,"Changed Rows");
+    ui->tabWidget->setTabText(1, "Extra Rows");
+
     for (QString col : r_ses->returnColOne_to_name())
     {
         int colnum_one = r_ses->getColNum_one(col);
-        diffModel->setHeaderData(colnum_one+1, Qt::Horizontal, col );
+        diffOneModel->setHeaderData(colnum_one+1, Qt::Horizontal, col );
         extrasModel_one->setHeaderData(colnum_one+1, Qt::Horizontal, col );
     }
 
     extrasModel_one->setHeaderData(0, Qt::Horizontal, tr("ROW"));
-    diffModel->setHeaderData(0, Qt::Horizontal, tr("ROW"));
+    diffOneModel->setHeaderData(0, Qt::Horizontal, tr("ROW"));
 
     for (QString col : r_ses->returnColTwo_to_name())
     {
         int colnum_two = r_ses->getColNum_two(col);
+        diffTwoModel->setHeaderData(colnum_two+1, Qt::Horizontal, col );
         extrasModel_two->setHeaderData(colnum_two+1, Qt::Horizontal, col );
     }
 
@@ -56,15 +62,15 @@ void Results::onNewUpdateResultsExtras(int one_or_two, QList<QStandardItem *> it
 {
     if (one_or_two == 1)   //if extra row is in table one
     {                                            //add row to tableView_2
-        qDebug() << "RESULTS: row is in table one";
+       // qDebug() << "RESULTS: row is in table one";
         extrasModel_one->insertRow(extrasModel_one->rowCount(), items);
-        qDebug() << "RESULTS: added TABLE ONE row to extras model";
+       // qDebug() << "RESULTS: added TABLE ONE row to extras model";
     }
     else   //extra row is in table two
     {
-        qDebug() << "RESULTS: row is in table two";
+       // qDebug() << "RESULTS: row is in table two";
         extrasModel_two->insertRow(extrasModel_two->rowCount(), items);  //add row to tableView_3
-        qDebug() << "RESULTS: added TABLE TWO row to extras model";
+       // qDebug() << "RESULTS: added TABLE TWO row to extras model";
     }
 }
 
@@ -74,15 +80,15 @@ void Results::onNewUpdateResultsChanged(QList<QStandardItem *> itemsOne, QList<Q
 {
         if (!checked_one.contains(row_one))
         {
-             diffModel->insertRow(diffModel->rowCount(), itemsOne);
+             diffOneModel->insertRow(diffOneModel->rowCount(), itemsOne);
              checked_one.insert(row_one);
         }
         if (!checked_two.contains(row_two))
         {
-             diffModel->insertRow(diffModel->rowCount(), itemsTwo);
+             diffTwoModel->insertRow(diffTwoModel->rowCount(), itemsTwo);
              checked_two.insert(row_two);
         }
-        qDebug() << "finished inserting into results changed table";
+      //  qDebug() << "finished inserting into results changed table";
 }
 
 
@@ -90,7 +96,8 @@ Results::~Results()
 {
     delete ui;
     delete r_ses;
-    delete diffModel;
+    delete diffOneModel;
+    delete diffTwoModel;
     delete extrasModel_one;
     delete extrasModel_two;
 }
