@@ -37,25 +37,6 @@ Results::Results(QWidget *parent, Session *s) :
     ui->tabWidget->setTabText(0,"Changed Rows");
     ui->tabWidget->setTabText(1, "Extra Rows");
 
-    for (QString col : r_ses->returnColOne_to_name())
-    {
-        int colnum_one = r_ses->getColNum_one(col);
-        diffOneModel->setHeaderData(colnum_one+1, Qt::Horizontal, col );
-        extrasModel_one->setHeaderData(colnum_one+1, Qt::Horizontal, col );
-    }
-
-    extrasModel_one->setHeaderData(0, Qt::Horizontal, tr("ROW"));
-    diffOneModel->setHeaderData(0, Qt::Horizontal, tr("ROW"));
-
-    for (QString col : r_ses->returnColTwo_to_name())
-    {
-        int colnum_two = r_ses->getColNum_two(col);
-        diffTwoModel->setHeaderData(colnum_two+1, Qt::Horizontal, col );
-        extrasModel_two->setHeaderData(colnum_two+1, Qt::Horizontal, col );
-    }
-
-    extrasModel_two->setHeaderData(0, Qt::Horizontal, tr("ROW"));
-
 }
 
 void Results::onNewUpdateResultsExtras(int one_or_two, QList<QStandardItem *> items)
@@ -83,11 +64,32 @@ void Results::onNewUpdateResultsChanged(QList<QStandardItem *> itemsOne, QList<Q
              diffOneModel->insertRow(diffOneModel->rowCount(), itemsOne);
              checked_one.insert(row_one);
         }
+
         if (!checked_two.contains(row_two))
         {
              diffTwoModel->insertRow(diffTwoModel->rowCount(), itemsTwo);
              checked_two.insert(row_two);
         }
+
+        for (QString col : r_ses->returnColOne_to_name())
+        {
+            int colnum_one = r_ses->getColNum_one(col);
+            diffOneModel->setHeaderData(colnum_one, Qt::Horizontal, col );
+            extrasModel_one->setHeaderData(colnum_one, Qt::Horizontal, col );
+
+        }
+        for (QString col : r_ses->returnColTwo_to_name())
+        {
+             int colnum_two = r_ses->getColNum_two(col);
+             diffTwoModel->setHeaderData(colnum_two, Qt::Horizontal, col );
+             extrasModel_two->setHeaderData(colnum_two, Qt::Horizontal, col );
+        }
+
+
+        extrasModel_two->setHeaderData(23, Qt::Horizontal, tr("ROW"));
+        extrasModel_one->setHeaderData(23, Qt::Horizontal, tr("ROW"));
+        diffOneModel->setHeaderData(23, Qt::Horizontal, tr("ROW"));
+        diffTwoModel->setHeaderData(23, Qt::Horizontal, tr("ROW"));
       //  qDebug() << "finished inserting into results changed table";
 }
 

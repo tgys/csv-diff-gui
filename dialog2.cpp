@@ -64,6 +64,10 @@ void Dialog2::updateTable()
         rowItems.append(new QStandardItem(QString::number(eqCol)));
         eqvModel->insertRow(eqvModel->rowCount(), rowItems);
     }
+     eqvModel->setHeaderData(0, Qt::Horizontal, tr("First Table"));
+    eqvModel->setHeaderData(1, Qt::Horizontal, tr("1st Columns"));
+    eqvModel->setHeaderData(2, Qt::Horizontal, tr("Second Table"));
+    eqvModel->setHeaderData(3, Qt::Horizontal, tr("2nd Columns"));
 }
 
 void Dialog2::updateMods()
