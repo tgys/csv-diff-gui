@@ -64,9 +64,7 @@ TODO
 
 TODO
 
-## Authors
 
-* **Tei** - *Initial work* - [isgy](https://github.com/isgy)
 
 ## License
 
