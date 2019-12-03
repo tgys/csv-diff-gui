@@ -5,7 +5,7 @@ A simple diff tool for CSV files with a GUI written in Qt/C++
 ### Prerequisites
 
 You will need a C++ compiler, e.g clang or MinGW.
-If you're building a standalone app, you will need to build Qt5 from source, and the packages required for this are ActivePerl, GPerf, Bison, Flex. 
+If you're building a standalone app, you will need to build Qt5 from source, and the build dependencies are ActivePerl, GPerf, Bison, Flex. 
 It's easier to make the standalone app with mxe, which you can get from the github repo at 
 https://github.com/mxe/mxe
 
