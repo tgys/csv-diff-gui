@@ -11,9 +11,7 @@ https://github.com/mxe/mxe
 
 ### Installing
 
-If you have the Qt SDK and the Qtcreator IDE installed, you can run the release version of the program from the IDE, 
-which will automatically create the build and output directories, and use qmake and make to compile and run the project, or alternatively, you can use mxe to compile the app for a specific platform.
-This app uses Qt5, and the steps used to compile the windows standalone app in the releases folder are:
+TODO
 
 *get the source code from git:
 ```
@@ -27,7 +25,6 @@ https://mxe.cc/#requirements
 ```
 cd mxe && make qt5
 ```
-this took around an hour on my 2.9Ghz machine
 
 *export the path
 
@@ -54,7 +51,7 @@ use mxe to cross compile and deploy static binaries
 ## Built With
 
 * [qmake](https://doc.qt.io/qt-5/qmake-manual.html) - The MakeFile generator
-* [mxe](https://github.com/mxe/mxe) - For dependency management and cross platform compilation (a standalone app for windows is already compiled, and included in the repo)
+* [mxe](https://github.com/mxe/mxe) - For dependency management and cross platform compilation
 
 ## Contributing
 
@@ -64,13 +61,6 @@ TODO
 
 TODO
 
-
-
 ## License
 
 TODO
-
-## Acknowledgments
-
-* Qt Docs at https://doc.qt.io/ and the Qt forum  
-* StackOverflow
